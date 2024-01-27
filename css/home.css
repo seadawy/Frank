@@ -1,5 +1,12 @@
 @import url('https://fonts.googleapis.com/css2?family=Love+Ya+Like+A+Sister&display=swap');
 
+*,
+*::after,
+*::before,
+*::placeholder {
+    font-family: "Roboto", sans-serif;
+}
+
 body {
     background-color: #f0f7f7;
     display: flex;
@@ -18,9 +25,8 @@ body {
 }
 
 .rank {
-    color: #40A2D8 !important;
+    color: #00a894 !important;
     font-family: "Love Ya Like A Sister", cursive;
-
 }
 
 .homeBtn {
@@ -30,6 +36,117 @@ body {
     border-radius: 8px;
 }
 
-td,th{
+td,
+th {
     text-align: center;
+}
+
+/* Create Quiz */
+
+.questionInput {
+    padding: 10px 15px;
+    border-radius: 9px;
+    border: 0;
+    background: rgba(37, 97, 97, 0.874);
+    color: white;
+}
+
+.questionInput::placeholder {
+    color: white;
+}
+
+.questionInput:focus-visible,
+.questionInput:focus {
+    outline: #f0f7f7;
+    transition: .4s;
+    background-color: rgb(58, 111, 79);
+}
+
+.optionInput {
+    width: -webkit-fill-available;
+    padding: 8px 10px;
+    border-radius: 7px;
+    border: 4px inset #8fdeb4 !important;
+}
+
+.optionInput:focus-visible,
+.optionInput:focus {
+    outline: #f0f7f7;
+    transition: .4s;
+    border: 4px inset rgba(41, 114, 114, 0.874) !important;
+    background-color: rgba(223, 249, 229, 0.777);
+}
+
+.form-check-input {
+    height: 25px;
+    width: 25px;
+    transition: .4s;
+}
+
+.form-check-input:checked {
+    background-color: #40bdaf;
+    border-color: #40bdaf;
+}
+
+.form-check-input:focus {
+    border-color: #86fed4;
+    outline: 0;
+    box-shadow: 0 0 0 0.25rem rgb(95 202 140 / 25%);
+}
+
+.optionGroup {
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    gap: 15px;
+    justify-content: center;
+    margin-bottom: 1em;
+}
+
+.cancel {
+    border: 5px solid salmon;
+    transition: .4s;
+    font-weight: 900;
+    color: #757575;
+}
+
+.cancel:hover {
+    background-color: salmon;
+    color: white;
+}
+
+.SuperCard {
+    border-radius: 8px;
+    margin: auto;
+    display: block !important;
+    background-color: white;
+    padding: 10px 15px;
+    height: 30rem;
+    max-width: 53em;
+    position: relative;
+}
+
+.superCardFooter {
+    position: absolute;
+    margin: 4px;
+    bottom: 5px;
+    right: 0px;
+}
+
+.superCardFooter .btn {
+    margin-bottom: 5px;
+}
+
+.btn-primary {
+    background-color: rgba(37, 97, 97, 1) !important;
+    border: 0;
+}
+
+.btn-primary:hover {
+    background-color: rgba(37, 97, 97, 0.634) !important;
+}
+
+.finish{
+    padding: 15px 20px;
+    font-weight: 900;
 }
