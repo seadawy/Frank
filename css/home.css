@@ -1,10 +1,12 @@
 @import url('https://fonts.googleapis.com/css2?family=Love+Ya+Like+A+Sister&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@200..1000&display=swap');
 
 *,
 *::after,
 *::before,
 *::placeholder {
-    font-family: "Roboto", sans-serif;
+    font-family: "Cairo", sans-serif;
+    font-optical-sizing: auto;
 }
 
 body {
@@ -19,9 +21,12 @@ body {
 .headline {
     font-size: 8em;
     font-family: "Love Ya Like A Sister", cursive;
+    text-shadow: 2px 3px 3px #332b2b;
     font-weight: 400;
     font-style: normal;
     text-align: center;
+    -webkit-user-select: none !important;
+    user-select: none !important;
 }
 
 .rank {
@@ -45,28 +50,30 @@ th {
 
 .questionInput {
     padding: 10px 15px;
-    border-radius: 9px;
-    border: 0;
-    background: rgba(37, 97, 97, 0.874);
-    color: white;
+    border-radius: 7px;
+    border: 2px solid #00a894;
+    background: rgb(255 255 255 / 87%);
+    text-align: end;
 }
 
 .questionInput::placeholder {
-    color: white;
+    color: rgb(151, 148, 148);
 }
 
 .questionInput:focus-visible,
 .questionInput:focus {
     outline: #f0f7f7;
-    transition: .4s;
-    background-color: rgb(58, 111, 79);
+    transition: .2s;
+    border: 4px solid rgba(37, 97, 97, 1);
 }
 
 .optionInput {
     width: -webkit-fill-available;
-    padding: 8px 10px;
+    padding: 8px 12px;
     border-radius: 7px;
     border: 4px inset #8fdeb4 !important;
+    margin-right: 1em;
+    text-align: end;
 }
 
 .optionInput:focus-visible,
@@ -96,11 +103,12 @@ th {
 
 .optionGroup {
     display: flex;
+    flex-direction: row-reverse;
     align-items: center;
-    flex-direction: row;
     gap: 15px;
     justify-content: center;
     margin-bottom: 1em;
+    padding-left: 0;
 }
 
 .cancel {
@@ -115,22 +123,21 @@ th {
     color: white;
 }
 
+.title {
+    text-align: end;
+    margin-bottom: 1rem;
+}
+
 .SuperCard {
     border-radius: 8px;
     margin: auto;
     display: block !important;
     background-color: white;
     padding: 10px 15px;
-    height: 30rem;
+    min-height: 30rem;
     max-width: 53em;
+    margin-bottom: 3em;
     position: relative;
-}
-
-.superCardFooter {
-    position: absolute;
-    margin: 4px;
-    bottom: 5px;
-    right: 0px;
 }
 
 .superCardFooter .btn {
@@ -146,7 +153,12 @@ th {
     background-color: rgba(37, 97, 97, 0.634) !important;
 }
 
-.finish{
+.finish {
     padding: 15px 20px;
     font-weight: 900;
+    background-color: rgb(0 168 148) !important;
+}
+
+.finish:hover {
+    background-color: rgba(37, 97, 97, 1) !important;
 }
