@@ -1,5 +1,5 @@
-var OptionNum = 3;
 let i = 0;
+let OptionNum = 3;
 let Questions = [];
 let Options = [];
 let Answer = [];
@@ -30,7 +30,6 @@ function validateForm() {
     return true;
 }
 function AddOption() {
-    OptionNum++;
     var newOption = $('<div>', {
         id: 'Option' + OptionNum,
         class: 'form-check optionGroup additional',
@@ -39,6 +38,7 @@ function AddOption() {
                 <input type="button" onclick="DelOption(this)" class="btn cancel" value="X">`
     });
     $("#options").append(newOption);
+    OptionNum++;
 }
 
 function AddQuestion() {
@@ -46,12 +46,10 @@ function AddQuestion() {
     $('.optionInput').each(function (index, element) {
         option.push($(element).val());
     });
-    if ($('input[name="answerCheck"]:checked').val() && $('.questionInput').val().trim()) {
-        Answer.push($('input[name="answerCheck"]:checked').val());
-        Questions.push($('.questionInput').val());
-        Options.push(option);
-        i++;
-    }
+    Answer.push($('input[name="answerCheck"]:checked').val());
+    Questions.push($('.questionInput').val());
+    Options.push(option);
+    i++;
 }
 
 function DelOption(e) {
@@ -62,6 +60,10 @@ function DelOption(e) {
 function CleanUp() {
     $('input[type="text"]').val('');
     $('input[type="radio"]').prop('checked', false);
+    $('.additional').each(function (index, element) {
+        element.remove();
+    });
+    OptionNum = 3;
 }
 
 function LoadIndex(pointer) {
@@ -97,6 +99,15 @@ function LoadIndex(pointer) {
 
 $('#next').click(function () {
     if (i < Questions.length) {
+        var option = [];
+        $('.optionInput').each(function (index, element) {
+            option.push($(element).val());
+        });
+        if (validateForm()) {
+            Answer[i] = $('input[name="answerCheck"]:checked').val();
+            Questions[i] = $('.questionInput').val();
+            Options[i] = option;
+        }
         i++;
         LoadIndex(i);
     } else {
