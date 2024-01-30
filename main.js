@@ -95,8 +95,12 @@ function LoadIndex(pointer) {
     }
 
     $('.finish').prop('value', " إرسال " + Questions.length + " سؤال ")
+    $('.finishtext').text(" جاهز لإرسال " + Questions.length + " سؤال ")
 }
 
+$('form').submit(function (e) {
+    e.preventDefault();
+})
 $('#next').click(function () {
     if (i < Questions.length) {
         var option = [];
@@ -118,7 +122,6 @@ $('#next').click(function () {
         }
     }
 });
-
 $('#prev').click(function () {
     if (i > 0) {
         i--;
@@ -126,25 +129,27 @@ $('#prev').click(function () {
     }
 });
 
-LoadIndex(i);
 
-$('form').submit(function (e) {
-    e.preventDefault();
-})
-/* 
-$(document).ready(function () {
-    $.ajax({
+$('.finish').click(function () {
+    var parentDiv = $('.SuperCard');
+/*     $.ajax({
         url: 'controller.php',
         method: 'POST',
         data: {
-            action: "",
+            Action: "AddQuestion",
+            Questions: Questions,
+            Options: Options,
+            Answers: Answer,
         },
         success: function (response) {
             console.log(response);
-            Load();
         },
         error: function (error) {
             console.log(error);
         }
     });
-}); */
+ */});
+
+$(document).ready(function () {
+    LoadIndex(i);
+});
