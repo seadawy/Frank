@@ -1,0 +1,231 @@
+@import url('https://fonts.googleapis.com/css2?family=Love+Ya+Like+A+Sister&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@200..1000&display=swap');
+
+*,
+*::after,
+*::before,
+*::placeholder {
+    font-family: "Cairo", sans-serif;
+    font-optical-sizing: auto;
+}
+
+body {
+    background-color: #f0f7f7;
+    display: flex;
+    flex-wrap: nowrap;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.headline {
+    font-size: 8em;
+    font-family: "Love Ya Like A Sister", cursive;
+    text-shadow: 2px 3px 3px #332b2b;
+    font-weight: 400;
+    font-style: normal;
+    text-align: center;
+    -webkit-user-select: none !important;
+    user-select: none !important;
+}
+
+.rank {
+    color: #00a894 !important;
+    font-family: "Love Ya Like A Sister", cursive;
+}
+
+.homeBtn {
+    width: 340px;
+    font-size: 24px;
+    padding: 5px 25px;
+    border-radius: 8px;
+}
+
+td,
+th {
+    text-align: center;
+}
+
+/* Create Quiz */
+
+.questionInput {
+    padding: 10px 15px;
+    border-radius: 7px;
+    border: 2px solid #00a894;
+    background: rgb(255 255 255 / 87%);
+    text-align: end;
+}
+
+.questionInput::placeholder {
+    color: rgb(151, 148, 148);
+}
+
+.questionInput:focus-visible,
+.questionInput:focus {
+    outline: #f0f7f7;
+    transition: .2s;
+    border: 4px solid rgba(37, 97, 97, 1);
+}
+
+.optionInput {
+    width: -webkit-fill-available;
+    padding: 8px 12px;
+    border-radius: 7px;
+    border: 4px inset #8fdeb4 !important;
+    margin-right: 1em;
+    text-align: end;
+}
+
+.optionInput:focus-visible,
+.optionInput:focus {
+    outline: #f0f7f7;
+    transition: .4s;
+    border: 4px inset rgba(41, 114, 114, 0.874) !important;
+    background-color: rgba(223, 249, 229, 0.777);
+}
+
+.form-check-input {
+    height: 25px;
+    width: 25px;
+    transition: .4s;
+}
+
+.form-check-input:checked {
+    background-color: #40bdaf;
+    border-color: #40bdaf;
+}
+
+.form-check-input:focus {
+    border-color: #86fed4;
+    outline: 0;
+    box-shadow: 0 0 0 0.25rem rgb(95 202 140 / 25%);
+}
+
+.optionGroup {
+    display: flex;
+    flex-direction: row-reverse;
+    align-items: center;
+    gap: 15px;
+    justify-content: center;
+    margin-bottom: 1em;
+    padding-left: 0;
+}
+
+.cancel {
+    border: 5px solid salmon;
+    transition: .4s;
+    font-weight: 900;
+    color: #757575;
+}
+
+.cancel:hover {
+    background-color: salmon;
+    color: white;
+}
+
+.title {
+    text-align: end;
+    margin-bottom: 1rem;
+}
+
+.SuperCard {
+    border-radius: 8px;
+    margin: auto;
+    display: block !important;
+    background-color: white;
+    padding: 10px 15px;
+    min-height: 30rem;
+    max-width: 53em;
+    margin-bottom: 3em;
+    position: relative;
+}
+
+.superCardFooter .btn {
+    margin-bottom: 5px;
+}
+
+.btn-primary {
+    background-color: rgba(37, 97, 97, 1) !important;
+    border: 0;
+}
+
+.btn-primary:hover {
+    background-color: rgba(37, 97, 97, 0.634) !important;
+}
+
+.finish {
+    padding: 15px 20px;
+    font-weight: 900;
+    background-color: rgb(0 168 148) !important;
+}
+
+.finish:hover {
+    background-color: rgba(37, 97, 97, 1) !important;
+}
+
+.finishScreen {
+    display: none;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    animation: myAnim 2s linear 0s 1 normal backwards;
+    position: absolute;
+    background-color: rgb(0 168 148) !important;
+    top: 0px;
+    right: 0;
+    width: -webkit-fill-available;
+    height: -webkit-fill-available;
+    border-radius: 7px;
+}
+
+.finishtext {
+    text-align: center;
+    color: white;
+    font-weight: bold;
+}
+
+@keyframes myAnim {
+    0% {
+        animation-timing-function: ease-in;
+        opacity: 1;
+        transform: translateY(45px);
+    }
+
+    24% {
+        opacity: 1;
+    }
+
+    40% {
+        animation-timing-function: ease-in;
+        transform: translateY(24px);
+    }
+
+    65% {
+        animation-timing-function: ease-in;
+        transform: translateY(12px);
+    }
+
+    82% {
+        animation-timing-function: ease-in;
+        transform: translateY(6px);
+    }
+
+    93% {
+        animation-timing-function: ease-in;
+        transform: translateY(4px);
+    }
+
+    25%,
+    55%,
+    75%,
+    87% {
+        animation-timing-function: ease-out;
+        transform: translateY(0px);
+    }
+
+    100% {
+        animation-timing-function: ease-out;
+        opacity: 1;
+        transform: translateY(0px);
+    }
+}
