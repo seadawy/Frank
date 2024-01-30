@@ -159,5 +159,4 @@ $('#realfinish').click(function () {
 
 $(document).ready(function () {
     LoadIndex(i);
-    $('.finish').hide();
 });
