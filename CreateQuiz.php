@@ -35,8 +35,8 @@
                 </div>
                 <div class="finishScreen">
                     <h2 class="finishtext my-5"></h2>
-                    <input type="button" class="btn btn-primary w-100" value="إرسال">
-                    <input type="button" class="btn btn-danger mt-2 w-100" value="إلغاء">
+                    <input type="button" class="btn btn-primary w-100" id="realfinish" value="إرسال">
+                    <input type="button" class="btn btn-danger mt-2 w-100 " id="cancelScreen" value="إلغاء">
                 </div>
                 <input type="button" class="btn btn-primary finish mt-2">
             </div>

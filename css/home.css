@@ -164,6 +164,10 @@ th {
 }
 
 .finishScreen {
+    display: none;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
     animation: myAnim 2s linear 0s 1 normal backwards;
     position: absolute;
     background-color: rgb(0 168 148) !important;
@@ -172,9 +176,6 @@ th {
     width: -webkit-fill-available;
     height: -webkit-fill-available;
     border-radius: 7px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
 }
 
 .finishtext {

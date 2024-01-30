@@ -29,6 +29,7 @@ function validateForm() {
 
     return true;
 }
+
 function AddOption() {
     var newOption = $('<div>', {
         id: 'Option' + OptionNum,
@@ -100,7 +101,8 @@ function LoadIndex(pointer) {
 
 $('form').submit(function (e) {
     e.preventDefault();
-})
+});
+
 $('#next').click(function () {
     if (i < Questions.length) {
         var option = [];
@@ -122,17 +124,22 @@ $('#next').click(function () {
         }
     }
 });
+
 $('#prev').click(function () {
     if (i > 0) {
         i--;
         LoadIndex(i);
     }
 });
-
-
 $('.finish').click(function () {
-    var parentDiv = $('.SuperCard');
-/*     $.ajax({
+    $('.finishScreen').show();
+});
+$('#cancelScreen').click(function () {
+    $('.finishScreen').hide();
+});
+$('.finishScreen').hide();
+$('#realfinish').click(function () {
+    $.ajax({
         url: 'controller.php',
         method: 'POST',
         data: {
@@ -148,7 +155,7 @@ $('.finish').click(function () {
             console.log(error);
         }
     });
- */});
+});
 
 $(document).ready(function () {
     LoadIndex(i);
