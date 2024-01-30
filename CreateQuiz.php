@@ -30,10 +30,15 @@
                 </div>
                 <input type="button" value="+ إضافة اختيار +" onclick="AddOption()" class="btn btn-primary">
                 <div class="d-flex justify-content-between mt-2">
-                    <input type="submit" value="إضافة سؤال" id="next" class="btn me-3 w-50 btn-primary nextButton">
+                    <input type="button" value="إضافة سؤال" id="next" class="btn me-3 w-50 btn-primary nextButton">
                     <input type="button" value="السابق" id="prev" class="btn w-50 btn-primary">
                 </div>
-                <input type="submit" value="إرسال" class="btn btn-primary finish mt-2">
+                <div class="finishScreen">
+                    <h2 class="finishtext my-5"></h2>
+                    <input type="button" class="btn btn-primary w-100" value="إرسال">
+                    <input type="button" class="btn btn-danger mt-2 w-100" value="إلغاء">
+                </div>
+                <input type="button" class="btn btn-primary finish mt-2">
             </div>
         </form>
     </div>
