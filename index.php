@@ -5,17 +5,15 @@ $conn = mysqli_connect('localhost', 'root', '', 'frank');
 if (isset($_POST["submit"])) {
     $token = uniqid();
     $name = $_POST['name'];
-    $sql = "INSERT INTO users (user,token) VAlUES ('$name','$token') ";
+    /* INSERT USER */
+    $sql = "INSERT INTO users (name,token) VAlUES ('$name','$token') ";
     $result = mysqli_query($conn, $sql);
+    /* HISTORY */
     $sql2 = "SELECT * FROM history WHERE host='$name' ORDER BY score";
     $result2 = mysqli_query($conn, $sql2);
-    $sql3 = "SELECT * FROM users WHERE user='$name'";
-    $result3 = mysqli_query($conn, $sql3);
-    $users = mysqli_fetch_array($result3);
-    setcookie("token", $users['token'], time() + 86400 * 365.25);
+    /*  */
+    setcookie("token", $token, time() + 86400 * 365.25);
 }
-
-
 ?>
 
 
@@ -38,21 +36,29 @@ if (isset($_POST["submit"])) {
             </center>
 
         </div>
-        <form action="index.php" method="POST">
-            <div class="row d-flex justify-content-center">
-                <input type="text" class="homeBtn shadow-sm" autocomplete="false" placeholder="PLZ Enter your name"
-                    name="name" required>
-                <input class="btn btn-primary w-50 mt-3" type="submit" value="Let's Start" name="submit">
-                <h1 class="headline m-0">F<span class="rank">rank</span></h1>
+        <?php if (!isset($_COOKIE['token'])): ?>
+            <form action="index.php" method="POST">
+                <div class="row d-flex flex-column justify-content-center align-items-center">
+                    <input type="text" class="homeBtn shadow-sm text-end" autocomplete="false" placeholder="ادخل اسمك"
+                        name="name" required>
+                    <input class="btn btn-primary mt-3" style="width:250px" type="submit" value="البدء" name="submit">
+                </div>
+            </form>
+        <?php else: ?>
+            <div class="row d-flex flex-column justify-content-center align-items-center">
+                <input class="btn btn-primary mt-3" style="width:250px" type="submit" value="إبدأ بتجهيز إختبار لأصدقائك"
+                    name="submit">
             </div>
-        </form>
+            </form>
+        <?php endif; ?>
+        <h1 class="headline m-0">F<span class="rank">rank</span></h1>
         <div class="row m-1 rounded-1">
             <table class="table ">
                 <thead>
                     <tr>
+                        <th>نقاط</th>
+                        <th>الأسم</th>
                         <th>#</th>
-                        <th>Name</th>
-                        <th>Score</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -69,7 +75,7 @@ if (isset($_POST["submit"])) {
                             </tr>
                         <?php endwhile; ?>
                     <?php else:
-                        echo "<tr><th colspan='3'>sorry you dont seem to have history here yet</th></td>";
+                        echo "<tr><th colspan='3'>ليس هناك اى مشاركين الى الأن</th></td>";
                     endif; ?>
                 </tbody>
             </table>
