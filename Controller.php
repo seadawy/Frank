@@ -6,7 +6,7 @@ if ($_POST['Action'] == "AddQuestion") {
     $Answer = $_POST['Answers'];
     $n = sizeof($Questions);
     for ($i = 0; $i < $n; $i++) {
-        $str_options = implode("| ", $Options[$i]);
+        $str_options = implode("|", $Options[$i]);
         $sql = "INSERT INTO questions (title , options , answer) VALUES('$Questions[$i]' , '$str_options' , '$Answer[$i]')";
         $query = mysqli_query($conn, $sql);
     }
