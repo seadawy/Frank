@@ -135,12 +135,10 @@ th {
 .SuperCard {
     border-radius: 8px;
     margin: auto;
-    display: block !important;
     background-color: white;
     padding: 10px 15px;
-    min-height: 30rem;
     max-width: 53em;
-    margin-bottom: 3em;
+    margin-bottom: 1em;
     position: relative;
 }
 
@@ -172,7 +170,7 @@ th {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    animation: myAnim 2s linear 0s 1 normal backwards;
+    animation: slidUP .5s linear;
     position: absolute;
     background-color: rgb(0 168 148) !important;
     top: 0px;
@@ -188,7 +186,31 @@ th {
     font-weight: bold;
 }
 
-@keyframes myAnim {
+.indexed {
+    background-color: #acaaaa6a;
+    transition: .4s;
+    font-weight: bold;
+    margin: 2.5px;
+}
+
+.indexed:hover {
+    background-color: #8fdeb4;
+    color: white;
+    font-weight: bolder;
+}
+
+.indexed.active {
+    color: white;
+    background-color: rgba(37, 97, 97, 1);
+}
+
+#AddQuestion {
+    margin: 2.5px;
+    padding: 0px 20px;
+    font-weight: bold;
+}
+
+@keyframes slidUP {
     0% {
         animation-timing-function: ease-in;
         opacity: 1;
@@ -209,26 +231,13 @@ th {
         transform: translateY(12px);
     }
 
-    82% {
+    85% {
         animation-timing-function: ease-in;
-        transform: translateY(6px);
-    }
-
-    93% {
-        animation-timing-function: ease-in;
-        transform: translateY(4px);
-    }
-
-    25%,
-    55%,
-    75%,
-    87% {
-        animation-timing-function: ease-out;
-        transform: translateY(0px);
+        transform: translateY(5px);
     }
 
     100% {
-        animation-timing-function: ease-out;
+        animation-timing-function: ease-in;
         opacity: 1;
         transform: translateY(0px);
     }

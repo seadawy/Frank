@@ -8,9 +8,6 @@ if (isset($_POST["submit"])) {
     /* INSERT USER */
     $sql = "INSERT INTO users (name,token) VAlUES ('$name','$token') ";
     $result = mysqli_query($conn, $sql);
-    /* HISTORY */
-    $sql2 = "SELECT * FROM history WHERE host='$name' ORDER BY score";
-    $result2 = mysqli_query($conn, $sql2);
     /*  */
     setcookie("token", $token, time() + 86400 * 365.25);
 }
@@ -63,6 +60,12 @@ if (isset($_POST["submit"])) {
                 </thead>
                 <tbody>
                     <?php if (isset($_COOKIE['token'])): ?>
+                        <?php
+                        /* HISTORY */
+                        $token = $_COOKIE['token'];
+                        $sql2 = "SELECT * FROM history WHERE host='$token' ORDER BY score";
+                        $result2 = mysqli_query($conn, $sql2);
+                        ?>
                         <?php while ($history = mysqli_fetch_array($result2)): ?>
                             <tr class="table-warning">
                                 <th class="rank">BFF</th>

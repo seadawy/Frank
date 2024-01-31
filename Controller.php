@@ -10,4 +10,5 @@ if ($_POST['Action'] == "AddQuestion") {
         $sql = "INSERT INTO questions (title , options , answer) VALUES('$Questions[$i]' , '$str_options' , '$Answer[$i]')";
         $query = mysqli_query($conn, $sql);
     }
+    echo json_encode($Questions);
 }

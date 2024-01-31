@@ -4,6 +4,14 @@ let Questions = [];
 let Options = [];
 let Answer = [];
 
+/* OVERFLOW SHIT */
+String.prototype.toArabic = function () {
+    var id = ['٠', '١', '٢', '٣', '٤', '٥', '٦', '٧', '٨', '٩'];
+    return this.replace(/[0-9]/g, function (w) {
+        return id[+w];
+    });
+};
+/* CHECK VALIDATION */
 function validateForm() {
     var questionInput = $(".questionInput").val().trim();
     if (questionInput === "") {
@@ -29,7 +37,17 @@ function validateForm() {
 
     return true;
 }
-
+/* SAVE QUESTION */
+function SaveCurrentQuestion() {
+    var option = [];
+    $('.optionInput').each(function (index, element) {
+        option.push($(element).val());
+    });
+    Answer[i] = $('input[name="answerCheck"]:checked').val();
+    Questions[i] = $('.questionInput').val();
+    Options[i] = option;
+}
+/* OPTION CONTROLES */
 function AddOption() {
     var newOption = $('<div>', {
         id: 'Option' + OptionNum,
@@ -41,23 +59,10 @@ function AddOption() {
     $("#options").append(newOption);
     OptionNum++;
 }
-
-function AddQuestion() {
-    var option = [];
-    $('.optionInput').each(function (index, element) {
-        option.push($(element).val());
-    });
-    Answer.push($('input[name="answerCheck"]:checked').val());
-    Questions.push($('.questionInput').val());
-    Options.push(option);
-    i++;
-}
-
 function DelOption(e) {
     e.parentNode.remove();
     OptionNum--;
 }
-
 function CleanUp() {
     $('input[type="text"]').val('');
     $('input[type="radio"]').prop('checked', false);
@@ -69,6 +74,12 @@ function CleanUp() {
 
 function LoadIndex(pointer) {
     CleanUp();
+    $('.indexed').removeClass('active');
+    $('#indexGraid .indexed').each(function (inx, ele) {
+        if (inx == pointer) {
+            $(ele).addClass('active');
+        }
+    });
     if (pointer < Questions.length) {
         $('.questionInput').val(Questions[pointer]);
         for (let x = 2; x < Options[pointer].length; x++) {
@@ -83,42 +94,49 @@ function LoadIndex(pointer) {
             };
         });
     }
+
+    /* AVABALILITY OF ARROWS */
     if (pointer > 0) {
         $('#prev').prop('disabled', false);
     } else {
         $('#prev').prop('disabled', true);
     }
-
     if (pointer == Questions.length) {
-        $('#next').prop('value', 'إضافة سؤال');
+        $('#next').prop('disabled', true);
     } else {
-        $('#next').prop('value', 'التالى');
+        $('#next').prop('disabled', false);
     }
 
-    $('.finish').prop('value', " إرسال " + Questions.length + " سؤال ")
-    $('.finishtext').text(" جاهز لإرسال " + Questions.length + " سؤال ")
+    $('.finishtext').text(" جاهز لإرسال " + (Questions.length + 1).toString().toArabic() + " سؤال ")
 }
+
+$('#AddQuestion').click(function () {
+    if (validateForm()) {
+        SaveCurrentQuestion();
+        i++;
+        var newbutton = $('<input>', { type: "button", class: "btn indexed", numeric: i, value: (i + 1).toString().toArabic() })
+        $('#AddQuestion').before(newbutton);
+        LoadIndex(i);
+    } else {
+        $("#alert").fadeIn();
+        setTimeout(function () {
+            $("#alert").fadeOut();
+        }, 2500);
+    }
+});
 
 $('form').submit(function (e) {
     e.preventDefault();
 });
 
+
 $('#next').click(function () {
     if (i < Questions.length) {
-        var option = [];
-        $('.optionInput').each(function (index, element) {
-            option.push($(element).val());
-        });
-        if (validateForm()) {
-            Answer[i] = $('input[name="answerCheck"]:checked').val();
-            Questions[i] = $('.questionInput').val();
-            Options[i] = option;
-        }
         i++;
         LoadIndex(i);
     } else {
         if (validateForm()) {
-            AddQuestion();
+            SaveCurrentQuestion();
             LoadIndex(i);
             CleanUp();
         }
@@ -132,10 +150,18 @@ $('#prev').click(function () {
     }
 });
 $('.finish').click(function () {
-    $('.finishScreen').show();
+    if (validateForm()) {
+        $('.finishScreen').show();
+        SaveCurrentQuestion();
+    } else {
+        $("#alert").fadeIn();
+        setTimeout(function () {
+            $("#alert").fadeOut();
+        }, 2500);
+    }
 });
 $('#cancelScreen').click(function () {
-    $('.finishScreen').hide();
+    $('.finishScreen').fadeOut();
 });
 $('.finishScreen').hide();
 $('#realfinish').click(function () {
@@ -157,6 +183,11 @@ $('#realfinish').click(function () {
     });
 });
 
+$(document).on('click', '.indexed', function () {
+    i = $(this).attr("numeric");
+    LoadIndex(i);
+});
 $(document).ready(function () {
     LoadIndex(i);
+    $("#alert").fadeOut();
 });

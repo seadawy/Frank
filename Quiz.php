@@ -20,8 +20,6 @@ $query = mysqli_query($conn, $sql);
 <body>
     <div class="container">
         <h1 class="headline mt-3">F<span class="rank">rank</span></h1>
-
-        <!-- start -->
         <?php
         $i = 0;
         while ($fetch = mysqli_fetch_array($query)):

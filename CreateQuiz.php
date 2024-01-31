@@ -13,15 +13,28 @@
     <div class="container">
         <h1 class="headline mt-3">F<span class="rank">rank</span></h1>
         <form action="" id="theForm" method="POST">
+            <div class="SuperCard shadow d-flex">
+                <div class="col d-flex justify-content-start">
+                    <input type="button" class="btn btn-primary indexed" id="prev" style="rotate: 180deg;" value="⮞">
+                </div>
+                <div class="d-flex justify-content-center flex-wrap g-2" id="indexGraid">
+                    <input type="button" class="btn indexed active" numeric="0" value="١">
+                    <input type="button" class="btn btn-primary" id="AddQuestion" value="+">
+                </div>
+                <div class="col d-flex justify-content-end">
+                    <input type="button" class="btn indexed btn-primary" id="next" value="⮞">
+                </div>
+            </div>
+            <div id="alert" class="SuperCard shadow " style="display:none">
+                <h5 class="text-danger text-end m-0">الرجاء ملئ جميع الحقول</h5>
+            </div>
             <div class="row SuperCard shadow" id="SuperCard">
-                <h3 class="title">السؤال</h3>
-                <input type="text" class="questionInput shadow-sm mb-3" placeholder="ادخل سؤال" required>
+                <input type="text" class="questionInput shadow-sm my-2" placeholder="ادخل سؤال" required>
                 <hr>
-                <h3 class="title">الأختيارات</h3>
                 <div id="options">
                     <div class="form-check optionGroup" id="option1">
                         <input class="form-check-input" type="radio" name="answerCheck" value="1" required>
-                        <input type="text" class="optionInput" placeholder="ادخل إختيار " required>
+                        <input type="text" class="optionInput" placeholder="ادخل إختيار" required>
                     </div>
                     <div class="form-check optionGroup" id="option2">
                         <input class="form-check-input" type="radio" name="answerCheck" value="2" required>
@@ -29,16 +42,14 @@
                     </div>
                 </div>
                 <input type="button" value="+ إضافة اختيار +" onclick="AddOption()" class="btn btn-primary">
-                <div class="d-flex justify-content-between mt-2">
-                    <input type="button" value="إضافة سؤال" id="next" class="btn me-3 w-50 btn-primary nextButton">
-                    <input type="button" value="السابق" id="prev" class="btn w-50 btn-primary">
-                </div>
                 <div class="finishScreen">
                     <h2 class="finishtext my-5"></h2>
                     <input type="button" class="btn btn-primary w-100" id="realfinish" value="إرسال">
                     <input type="button" class="btn btn-danger mt-2 w-100 " id="cancelScreen" value="إلغاء">
                 </div>
-                <input type="button" class="btn btn-primary finish mt-2">
+            </div>
+            <div class="SuperCard shadow">
+                <input type="button" class="btn btn-primary w-100 finish mt-2" value="تم الأنتهاء">
             </div>
         </form>
     </div>
