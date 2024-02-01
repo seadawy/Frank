@@ -192,6 +192,7 @@ $('#realfinish').click(function () {
 });
 $(document).on('click', '.indexed', function () {
     if (validateForm()) {
+        SaveCurrentQuestion();
         i = $(this).attr("numeric");
         LoadIndex(i);
     } else {
