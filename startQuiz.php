@@ -8,17 +8,31 @@
     <link rel="stylesheet" href="css/bootstrap.min.css">
     <link rel="stylesheet" href="css/home.css">
 </head>
+<?php
+include("db.php");
+if (isset($_POST['send'])) {
+    $token = uniqid();
+    $sql = "INSERT INTO users (name, token) VALUES ('$name','$token')";
+    $query = mysqli_query($conn, $sql);
+    setcookie("token", $token, time() + 86400 * 7);
+}
+?>
 
 <body>
     <div class="container mt-5">
-        <form action="" method="post" class="SuperCard shadow d-flex flex-column mt-5 gap-2">
+        <div class="SuperCard shadow mt-5">
+            <h4 class="fs-4 text-center">
+                🥰 سعداوى يدعوك لأختبار صداقه
+            </h4>
+        </div>
+        <form action="" method="post" class="SuperCard shadow d-flex flex-column gap-2">
             <h1 class="headline mt-3">F<span class="rank">rank</span></h1>
-            <input type="text" class="optionInput m-0" name="" id="username">
+            <input type="text" class="optionInput m-0" name="" placeholder="الرجاء ادخال الاسم" id="username">
             <div class="d-flex justify-content-end align-items-center gap-2">
                 <span>اسم عشوائى</span>
-                <input type="checkbox" id="anon" onchange="anond()" class="form-check-input" name="">
+                <input type="checkbox" id="anon" onchange="anond(this)" value="1" class="form-check-input" name="check">
             </div>
-            <input type="button" class="btn btn-primary mt-2" value="يلا" name="" id="">
+            <input type="button" class="btn btn-primary mt-2" value="يلا" name="send" id="">
         </form>
         <div class="SuperCard shadow">
             <table class="table">
@@ -50,8 +64,16 @@
 <script src="main.js"></script>
 -->
 <script>
-    function anond() {
+    function anond(e) {
         let ele = document.getElementById('username');
+        if (e.checked) {
+            var theNames = ['Frank', 'Franky', 'Fransis', 'Lemon', 'Flippy', 'Salamander'];
+            var randomIndex = Math.floor(Math.random() * theNames.length);
+            var randomElement = theNames[randomIndex];
+            ele.value = randomElement;
+        } else {
+            ele.value = "";
+        }
         ele.disabled = !ele.disabled;
     }
 </script>
