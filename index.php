@@ -1,15 +1,15 @@
 <?php
 $conn = mysqli_connect('localhost', 'root', '', 'frank');
 
-
 if (isset($_POST["submit"])) {
     $token = uniqid();
     $name = $_POST['name'];
     /* INSERT USER */
-    $sql = "INSERT INTO users (name,token) VAlUES ('$name','$token') ";
+    $sql = "INSERT INTO users (name,token) VAlUES ('$name','$token')";
     $result = mysqli_query($conn, $sql);
-    /*  */
     setcookie("token", $token, time() + 86400 * 365.25);
+    /*  */
+    header("location:index.php");
 }
 ?>
 
@@ -43,14 +43,14 @@ if (isset($_POST["submit"])) {
             </form>
         <?php else: ?>
             <div class="row d-flex flex-column justify-content-center align-items-center">
-                <input class="btn btn-primary mt-3" style="width:250px" type="submit" value="إبدأ بتجهيز إختبار لأصدقائك"
-                    name="submit">
+                <p class="text-center fs-3"> احتفظ بالأصدقاء وتعايش مع الأعداء </p>
+                <a class="btn btn-primary shadow-sm mt-3" href="CreateQuiz.php" style="width:250px"> صنع اختبار</a>
             </div>
             </form>
         <?php endif; ?>
         <h1 class="headline m-0">F<span class="rank">rank</span></h1>
         <div class="row m-1 rounded-1">
-            <table class="table ">
+            <table class="table shadow ">
                 <thead>
                     <tr>
                         <th>نقاط</th>
@@ -78,7 +78,7 @@ if (isset($_POST["submit"])) {
                             </tr>
                         <?php endwhile; ?>
                     <?php else:
-                        echo "<tr><th colspan='3'>ليس هناك اى مشاركين الى الأن</th></td>";
+                        echo "<tr><th colspan='3'>ليس هناك اى مشاركين الى الأن</th></tr>";
                     endif; ?>
                 </tbody>
             </table>

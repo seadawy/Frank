@@ -131,22 +131,30 @@ $('form').submit(function (e) {
 
 
 $('#next').click(function () {
-    if (i < Questions.length) {
-        i++;
-        LoadIndex(i);
-    } else {
-        if (validateForm()) {
-            SaveCurrentQuestion();
+    if (validateForm()) {
+        if (i < Questions.length) {
+            i++;
             LoadIndex(i);
-            CleanUp();
         }
+    } else {
+        $("#alert").fadeIn();
+        setTimeout(function () {
+            $("#alert").fadeOut();
+        }, 2500);
     }
 });
 
 $('#prev').click(function () {
-    if (i > 0) {
-        i--;
-        LoadIndex(i);
+    if (validateForm()) {
+        if (i > 0) {
+            i--;
+            LoadIndex(i);
+        }
+    } else {
+        $("#alert").fadeIn();
+        setTimeout(function () {
+            $("#alert").fadeOut();
+        }, 2500);
     }
 });
 $('.finish').click(function () {
@@ -169,7 +177,7 @@ $('#realfinish').click(function () {
         url: 'controller.php',
         method: 'POST',
         data: {
-            Action: "AddQuestion",
+            Action: "AddQuiz",
             Questions: Questions,
             Options: Options,
             Answers: Answer,
@@ -182,10 +190,16 @@ $('#realfinish').click(function () {
         }
     });
 });
-
 $(document).on('click', '.indexed', function () {
-    i = $(this).attr("numeric");
-    LoadIndex(i);
+    if (validateForm()) {
+        i = $(this).attr("numeric");
+        LoadIndex(i);
+    } else {
+        $("#alert").fadeIn();
+        setTimeout(function () {
+            $("#alert").fadeOut();
+        }, 2500);
+    }
 });
 $(document).ready(function () {
     LoadIndex(i);
