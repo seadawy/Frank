@@ -10,6 +10,8 @@
 </head>
 <?php
 include("db.php");
+/* quiz pub id */
+$quizPublicID = $_GET['q'];
 if (isset($_POST['send'])) {
     $token = uniqid();
     $sql = "INSERT INTO users (name, token) VALUES ('$name','$token')";
