@@ -2,7 +2,10 @@
 include("db.php");
 $sql = "SELECT * FROM questions"; //add user tokin later
 $query = mysqli_query($conn, $sql);
+if(empty ($_COOKIE['token'])){
+header("location:index.php");    
 
+}
 ?>
 <!DOCTYPE html>
 <html lang="ar" class="">
