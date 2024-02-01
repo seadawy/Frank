@@ -17,11 +17,16 @@ if (isset($_POST['send'])) {
     setcookie("token", $token, time() + 86400 * 7);
 }
 ?>
+<!-- TO DO -->
+<!-- MAKE SESSION -->
 
 <body>
     <div class="container mt-5">
         <div class="SuperCard shadow mt-5">
             <h4 class="fs-4 text-center">
+                <!-- TO DO -->
+                <!-- غير سعداوى للأسم بتاع صاحب الاختبار
+                 اللينك بيبقى فيه الفيربول -->
                 🥰 سعداوى يدعوك لأختبار صداقه
             </h4>
         </div>
@@ -34,6 +39,8 @@ if (isset($_POST['send'])) {
             </div>
             <input type="button" class="btn btn-primary mt-2" value="يلا" name="send" id="">
         </form>
+        <!-- TO DO -->
+        <!-- FETCH THE HISTORY FROM THIS EXAM SCORE,NAME -->
         <div class="SuperCard shadow">
             <table class="table">
                 <thead>
