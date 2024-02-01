@@ -1,3 +1,9 @@
+<?php
+include('db.php');
+$sql = "SELECT * FROM users";
+$query = mysqli_query($conn, $sql);
+$fetch = mysqli_fetch_array($query);
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -21,6 +27,10 @@ if (isset($_POST['send'])) {
 ?>
 <!-- TO DO -->
 <!-- MAKE SESSION -->
+<?php session_start();
+$_SESSION['token'] = $token;
+
+?>
 
 <body>
     <div class="container mt-5">
@@ -29,7 +39,12 @@ if (isset($_POST['send'])) {
                 <!-- TO DO -->
                 <!-- غير سعداوى للأسم بتاع صاحب الاختبار
                  اللينك بيبقى فيه الفيربول -->
-                🥰 سعداوى يدعوك لأختبار صداقه
+                <?php
+
+
+                ?>
+                🥰
+                <?php echo $fetch['user']; ?> يدعوك لأختبار صداقه
             </h4>
         </div>
         <form action="" method="post" class="SuperCard shadow d-flex flex-column gap-2">
@@ -43,6 +58,11 @@ if (isset($_POST['send'])) {
         </form>
         <!-- TO DO -->
         <!-- FETCH THE HISTORY FROM THIS EXAM SCORE,NAME -->
+        <?php
+        $sql = "SELECT * FROM history WHERE host='$quizPublicID'";
+        $query = mysqli_query($conn, $sql);
+
+        ?>
         <div class="SuperCard shadow">
             <table class="table">
                 <thead>
@@ -53,15 +73,28 @@ if (isset($_POST['send'])) {
                     </tr>
                 </thead>
                 <tbody>
-                    <tr class="table-warning">
-                        <th class="rank">BFF</th>
-                        <th>
-                            phweguest
-                        </th>
-                        <th>
-                            echo54
-                        </th>
-                    </tr>
+                    <?php
+                    $i = 1;
+                    while ($score = mysqli_fetch_array($query)): ?>
+                        <tr class="table-warning">
+                            <th>
+                                <?php echo $score["score"]; ?>
+                            </th>
+                            <th>
+                                <?php echo $score["guest"]; ?>
+                            </th>
+                            <?php if ($i == 1): ?>
+                                <th class="rank">BFF</th>
+                            </tr>
+                        <?php else: ?>
+                            <th class="rank">
+                                <?php echo $i ?>
+                            </th>
+                            </tr>
+                        <?php endif;
+                            $i++;
+                            ?>
+                    <?php endwhile; ?>
                 </tbody>
             </table>
         </div>
