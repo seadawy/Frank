@@ -22,11 +22,6 @@ if (isset($_COOKIE['token'])) {
     <title>Quiz</title>
     <link rel="stylesheet" href="css/bootstrap.min.css">
     <link rel="stylesheet" href="css/home.css">
-    <style>
-        .SuperCard {
-            min-width: 100%;
-        }
-    </style>
 </head>
 
 <body>
@@ -46,49 +41,57 @@ if (isset($_COOKIE['token'])) {
                     <input type="button" class="btn indexed btn-primary" id="next" value="⮞">
                 </div>
             </div>
-            <div class="slider">
-                <?php
-                $i = 0;
-                while ($fetch = mysqli_fetch_array($query)) :
-                    $option = explode("|", $fetch["options"]);
-                ?>
-                    <div class="row SuperCard shadow-sm">
-                        <h1 class="fs-2 text-end">
-                            <?php echo $fetch["title"]; ?>
-                        </h1>
-                        <hr>
-                        <div id="options">
-                            <?php
-                            $n = sizeof($option);
-                            for ($s = 0; $s < $n; $s++) : ?>
-                                <div class="optionGroup justify-content-start" id="option1">
-                                    <input class="form-check-input" type="radio" name="answerCheck<?php echo $i ?>" value="<?php echo $s; ?>" required>
-                                    <h1 class="fs-4 m-0 text-end">
-                                        <?php echo $option[$s]; ?>
-                                    </h1>
-                                </div>
-                            <?php endfor; ?>
-                        </div>
+            <?php
+            $i = 0;
+            while ($fetch = mysqli_fetch_array($query)) :
+                $option = explode("|", $fetch["options"]);
+            ?>
+                <div class="row SuperCard QuestionCard shadow-sm">
+                    <h1 class="fs-2 text-end">
+                        <?php echo $fetch["title"]; ?>
+                    </h1>
+                    <hr>
+                    <div id="options">
+                        <?php
+                        $n = sizeof($option);
+                        for ($s = 0; $s < $n; $s++) : ?>
+                            <div class="optionGroup justify-content-start" id="option1">
+                                <input class="form-check-input" type="radio" name="answerCheck<?php echo $i ?>" value="<?php echo $s; ?>" required>
+                                <h1 class="fs-4 m-0 text-end">
+                                    <?php echo $option[$s]; ?>
+                                </h1>
+                            </div>
+                        <?php endfor; ?>
                     </div>
-                <?php
-                    $i++;
-                endwhile; ?>
+                </div>
+            <?php
+                $i++;
+            endwhile; ?>
+            <div class="SuperCard shadow" id="lastQ">
+                <input type="button" class="btn btn-primary w-100 finish mt-2" value="تم الأنتهاء">
             </div>
         <?php else :
-        include ('error.php');
+        include('error.php');
     endif;
         ?>
         </div>
 </body>
 <script src="jquery-3.6.4.min.js"></script>
 <script>
+    String.prototype.toArabic = function() {
+        var id = ['٠', '١', '٢', '٣', '٤', '٥', '٦', '٧', '٨', '٩'];
+        return this.replace(/[0-9]/g, function(w) {
+            return id[+w];
+        });
+    };
     $(document).ready(function() {
         let currentIndex = 0;
-        const $slider = $('.slider');
-        const $slides = $('.SuperCard');
-        $slides.fadeOut();
-        const totalSlides = $slides.length - 1;
-
+        let $slider = $('.slider');
+        let $slides = $('.QuestionCard');
+        let totalSlides = $slides.length;
+        $("#lastQ").hide();
+        $slides.hide();
+        $slides.eq(0).show();
         $('#next').on('click', function() {
             currentIndex = (currentIndex + 1) % totalSlides;
             updateSlider();
@@ -100,8 +103,33 @@ if (isset($_COOKIE['token'])) {
         });
 
         function updateSlider() {
-            const translateValue = -currentIndex * 100 + '%';
-            $slider.css('transform', 'translateX(' + translateValue + ')');
+            $slides.hide();
+            $slides.eq(currentIndex).fadeIn();
+            $('.indexed').removeClass('active');
+            $('#indexGraid .indexed').each(function(inx, ele) {
+                if (inx == currentIndex) {
+                    $(ele).addClass('active');
+                }
+            });
+            if (currentIndex == totalSlides - 1) {
+                $("#lastQ").fadeIn();
+            }
+        }
+
+        $(document).on('click', '#indexGraid .indexed', function() {
+            currentIndex = $(this).attr("numeric");
+            updateSlider();
+        });
+
+        for (let i = 1; i < totalSlides; i++) {
+            var newbutton = $('<input>', {
+                type: "button",
+                class: "btn indexed",
+                numeric: i,
+                value: (i + 1).toString().toArabic()
+            })
+            $('#indexGraid').append(newbutton);
+
         }
     });
 </script>

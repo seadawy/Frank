@@ -12,8 +12,8 @@
 <body>
     <?php
     session_start();
-    if (isset($_SESSION['title'])):
-        ?>
+    if (isset($_SESSION['title'])) :
+    ?>
         <div class="container">
             <h1 class="headline mt-3">F<span class="rank">rank</span></h1>
             <form action="" id="theForm" method="POST">
@@ -58,7 +58,7 @@
                 </div>
             </form>
         </div>
-    <?php else:
+    <?php else :
         include 'error.php';
     endif; ?>
 </body>
