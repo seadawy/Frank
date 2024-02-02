@@ -2,9 +2,16 @@
 include("db.php");
 $sql = "SELECT * FROM questions"; //add user tokin later
 $query = mysqli_query($conn, $sql);
-if (empty($_COOKIE['token'])) {
-    header("location:index.php");
+
+if (isset($_COOKIE['token'])) {
+    $token = $_COOKIE["token"];
+    $sql2 = "SELECT token FROM users WHERE token='$token'";
+    $query2 = mysqli_query($conn, $sql2);
+    if (mysqli_num_rows($query2) == 0) {
+        header("location:error.php");
+    }
 }
+
 ?>
 <!DOCTYPE html>
 <html lang="ar" class="">
