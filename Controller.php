@@ -4,6 +4,7 @@ if ($_POST['Action'] == "AddQuiz") {
     $Questions = $_POST['Questions'];
     $Options = $_POST['Options'];
     $Answer = $_POST['Answers'];
+    $title = $_POST['title'];
     $quizKey = uniqid();
     $user = $_COOKIE['token'];
     $n = sizeof($Questions);
@@ -12,7 +13,7 @@ if ($_POST['Action'] == "AddQuiz") {
         $sql = "INSERT INTO questions (quizID_FK,title,options,answer) VALUES('$quizKey','$Questions[$i]' , '$str_options' , '$Answer[$i]')";
         mysqli_query($conn, $sql);
     }
-    $sql = "INSERT INTO quiz (userID_FK,globalQuizID) VALUES ('$user','$quizKey')";
+    $sql = "INSERT INTO quiz (userID_FK,title,globalQuizID) VALUES ('$user','$title','$quizKey')";
     mysqli_query($conn, $sql);
     echo json_encode($Questions);
 }

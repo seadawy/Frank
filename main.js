@@ -178,6 +178,7 @@ $('#realfinish').click(function () {
         method: 'POST',
         data: {
             Action: "AddQuiz",
+            title: $('#QuizTitle').val(),
             Questions: Questions,
             Options: Options,
             Answers: Answer,

@@ -1,6 +1,7 @@
 <?php
-$conn = mysqli_connect('localhost', 'root', '', 'frank');
-
+include 'db.php';
+session_start();
+session_unset();
 if (isset($_POST["submit"])) {
     $token = uniqid();
     $name = $_POST['name'];
@@ -8,13 +9,22 @@ if (isset($_POST["submit"])) {
     $sql = "INSERT INTO users (name,token) VAlUES ('$name','$token')";
     $result = mysqli_query($conn, $sql);
     setcookie("token", $token, time() + 86400 * 365.25);
-    /*  */
     header("location:index.php");
+}
+
+if (isset($_POST['newQuizSubmit'])) {
+    $_SESSION['title'] = $_POST['title'];
+    header("location:CreateQuiz.php");
 }
 ?>
 
 <!DOCTYPE html>
 <html lang="en">
+<!-- // remove all session variables
+session_unset();
+
+// destroy the session
+session_destroy(); -->
 
 <head>
     <meta charset="UTF-8">
@@ -57,9 +67,10 @@ if (isset($_POST["submit"])) {
                 </div>
                 <input type="button" id="newTest" class="btn btn-primary mt-3" value="إضافة جديد">
                 <div class="finishScreen p-3">
-                    <form action="" method="get" class="d-flex justify-content-center mt-2 gap-2">
-                        <input type="button" class="btn btn-primary shadow-sm" value="أكمل">
-                        <input type="text" name="title" class="form-control text-end shadow-sm" placeholder="عنوان لأختبار">
+                    <form action="" method="post" class="d-flex justify-content-center mt-2 gap-2">
+                        <input type="submit" class="btn btn-primary shadow-sm" name="newQuizSubmit" value="أكمل">
+                        <input type="text" name="title" class="form-control text-end shadow-sm" placeholder="عنوان لأختبار"
+                            required>
                         <input type="button" id="cancel" class="btn btn-danger shadow-sm" value="إلغاء">
                     </form>
                 </div>
@@ -111,7 +122,8 @@ if (isset($_POST["submit"])) {
     });
     $("#newTest").click(function () {
         $('.finishScreen').fadeIn();
-    })
+    });
+    $('.finishScreen').css('display', 'none');
 </script>
 
 </html>
