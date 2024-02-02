@@ -15,37 +15,24 @@ $fetch = mysqli_fetch_array($query);
     <link rel="stylesheet" href="css/home.css">
 </head>
 <?php
-include("db.php");
 session_start();
-/* quiz pub id */
 $quizPublicID = $_GET['q'];
 if (isset($_POST['send'])) {
     $token = uniqid();
     $sql = "INSERT INTO users (name, token) VALUES ('$name','$token')";
     $query = mysqli_query($conn, $sql);
+    $_SESSION['token'] = $token;
     setcookie("token", $token, time() + 86400 * 7);
 }
-?>
-<!-- TO DO -->
-<!-- MAKE SESSION -->
-<?php session_start();
-$_SESSION['token'] = $token;
-
 ?>
 
 <body>
     <div class="container mt-5">
         <div class="SuperCard shadow mt-5">
             <h4 class="fs-4 text-center">
-                <!-- TO DO -->
-                <!-- غير سعداوى للأسم بتاع صاحب الاختبار
-                 اللينك بيبقى فيه الفيربول -->
-                <?php
-
-
-                ?>
+                <?php echo $fetch['user']; ?>
+                يدعوك لأختبار صداقه
                 🥰
-                <?php echo $fetch['user']; ?> يدعوك لأختبار صداقه
             </h4>
         </div>
         <form action="" method="post" class="SuperCard shadow d-flex flex-column gap-2">
@@ -91,8 +78,7 @@ $_SESSION['token'] = $token;
                             </tr>
                         <?php endif;
                             $i++;
-                            ?>
-                    <?php endwhile; ?>
+                    endwhile; ?>
                 </tbody>
             </table>
         </div>
