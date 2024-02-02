@@ -23,14 +23,12 @@ if (isset($_POST['send'])) {
     $sql = "INSERT INTO users (name, token) VALUES ('$name','$token')";
     $query = mysqli_query($conn, $sql);
     setcookie("token", $token, time() + 86400 * 7);
+    $_SESSION['token'] = $token;
+
 }
 ?>
 <!-- TO DO -->
 <!-- MAKE SESSION -->
-<?php session_start();
-$_SESSION['token'] = $token;
-
-?>
 
 <body>
     <div class="container mt-5">
@@ -39,12 +37,9 @@ $_SESSION['token'] = $token;
                 <!-- TO DO -->
                 <!-- غير سعداوى للأسم بتاع صاحب الاختبار
                  اللينك بيبقى فيه الفيربول -->
-                <?php
-
-
-                ?>
+          
                 🥰
-                <?php echo $fetch['user']; ?> يدعوك لأختبار صداقه
+                <?php echo $fetch['name']; ?> يدعوك لأختبار صداقه
             </h4>
         </div>
         <form action="" method="post" class="SuperCard shadow d-flex flex-column gap-2">
