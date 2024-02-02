@@ -75,7 +75,7 @@ if (isset($_COOKIE['token'])) {
                 endwhile; ?>
             </div>
         <?php else :
-        include 'error.php';
+        include ('error.php');
     endif;
         ?>
         </div>
