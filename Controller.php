@@ -15,5 +15,5 @@ if ($_POST['Action'] == "AddQuiz") {
     }
     $sql = "INSERT INTO quiz (userID_FK,title,globalQuizID) VALUES ('$user','$title','$quizKey')";
     mysqli_query($conn, $sql);
-    echo json_encode($Questions);
+    header("location:index.php");
 }

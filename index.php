@@ -42,7 +42,7 @@ session_destroy(); -->
         <?php if (!isset($_COOKIE['token'])): ?>
             <div class="row">
                 <center>
-                    <img src="eyes.gif" alt="saly eyes" width="300">
+                    <img src="image/eyes.gif" alt="saly eyes" width="300">
                 </center>
             </div>
             <form action="index.php" method="POST">
@@ -56,8 +56,9 @@ session_destroy(); -->
             <div class="SuperCard shadow d-flex flex-column">
                 <div class="d-flex align-items-center justify-content-between">
                     <div class="d-flex gap-2">
-                        <input type="button" class="iconf btn btn-danger" quid="" value="&#xf00d;">
-                        <input type="button" class="iconf btn btn-primary" quid="" value=" &#xf0c5;">
+                        <input type="button" class="iconf btn btn-danger" quid="65bc61a6c7fd9" value="&#xf00d;">
+                        <a href="Quiz.php?q=65bc61a6c7fd9">link</a>
+                        <input type="button" class="iconf btn btn-primary" quid="65bc61a6c7fd9" value=" &#xf0c5;">
                     </div>
 
                     <div class="d-flex flex-row-reverse">
@@ -69,9 +70,9 @@ session_destroy(); -->
                 <div class="finishScreen p-3">
                     <form action="" method="post" class="d-flex justify-content-center mt-2 gap-2">
                         <input type="submit" class="btn btn-primary shadow-sm" name="newQuizSubmit" value="أكمل">
-                        <input type="text" name="title" class="form-control text-end shadow-sm" placeholder="عنوان لأختبار"
-                            required>
-                        <input type="button" id="cancel" class="btn btn-danger shadow-sm" value="إلغاء">
+                        <input type="text" name="title" class="form-control text-end shadow-sm" autocomplete="false"
+                            placeholder=" عنوان لأختبار" required>
+                        <input type=" button" id="cancel" class="btn btn-danger shadow-sm" value="إلغاء">
                     </form>
                 </div>
             </div>
