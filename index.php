@@ -42,7 +42,7 @@ session_destroy(); -->
         <?php if (!isset($_COOKIE['token'])): ?>
             <div class="row">
                 <center>
-                    <img src="eyes.gif" alt="saly eyes" width="300">
+                    <img src="image/eyes.gif" alt="saly eyes" width="300">
                 </center>
             </div>
             <form action="index.php" method="POST">

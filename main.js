@@ -183,8 +183,8 @@ $('#realfinish').click(function () {
             Options: Options,
             Answers: Answer,
         },
-        success: function (response) {
-            console.log(response);
+        success: function () {
+            window.location.replace('index.php')
         },
         error: function (error) {
             console.log(error);

@@ -58,7 +58,9 @@
                 </div>
             </form>
         </div>
-    <?php endif; ?>
+    <?php else:
+        include 'error.php';
+    endif; ?>
 </body>
 <script src="jquery-3.6.4.min.js"></script>
 <script src="main.js"></script>
