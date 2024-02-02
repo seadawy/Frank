@@ -16,6 +16,7 @@ $fetch = mysqli_fetch_array($query);
 </head>
 <?php
 include("db.php");
+session_start();
 /* quiz pub id */
 $quizPublicID = $_GET['q'];
 if (isset($_POST['send'])) {
@@ -23,12 +24,14 @@ if (isset($_POST['send'])) {
     $sql = "INSERT INTO users (name, token) VALUES ('$name','$token')";
     $query = mysqli_query($conn, $sql);
     setcookie("token", $token, time() + 86400 * 7);
-    $_SESSION['token'] = $token;
-
 }
 ?>
 <!-- TO DO -->
 <!-- MAKE SESSION -->
+<?php session_start();
+$_SESSION['token'] = $token;
+
+?>
 
 <body>
     <div class="container mt-5">
@@ -37,26 +40,26 @@ if (isset($_POST['send'])) {
                 <!-- TO DO -->
                 <!-- غير سعداوى للأسم بتاع صاحب الاختبار
                  اللينك بيبقى فيه الفيربول -->
-          
+                <?php
+
+
+                ?>
                 🥰
-                <?php echo $fetch['name']; ?> يدعوك لأختبار صداقه
+                <?php echo $fetch['user']; ?> يدعوك لأختبار صداقه
             </h4>
         </div>
         <form action="" method="post" class="SuperCard shadow d-flex flex-column gap-2">
             <h1 class="headline mt-3">F<span class="rank">rank</span></h1>
-            <input type="text" class="optionInput m-0" name="" placeholder="الرجاء ادخال الاسم" id="username">
+            <input type="text" class="optionInput m-0" name="" placeholder="الرجاء ادخال الاسم" id="username" required>
             <div class="d-flex justify-content-end align-items-center gap-2">
                 <span>اسم عشوائى</span>
                 <input type="checkbox" id="anon" onchange="anond(this)" value="1" class="form-check-input" name="check">
             </div>
-            <input type="button" class="btn btn-primary mt-2" value="يلا" name="send" id="">
+            <input type="submit" class="btn btn-primary mt-2" value="يلا" name="send" id="">
         </form>
-        <!-- TO DO -->
-        <!-- FETCH THE HISTORY FROM THIS EXAM SCORE,NAME -->
         <?php
         $sql = "SELECT * FROM history WHERE host='$quizPublicID'";
         $query = mysqli_query($conn, $sql);
-
         ?>
         <div class="SuperCard shadow">
             <table class="table">

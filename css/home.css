@@ -18,6 +18,13 @@ body {
     justify-content: center;
 }
 
+i,
+i::before,
+i::after,
+.iconf {
+    font-family: 'Font Awesome\ 6 Free' !important;
+}
+
 .form-check-input[type=radio] {
     border: 4px solid #ddd;
 }

@@ -2,9 +2,8 @@
 include("db.php");
 $sql = "SELECT * FROM questions"; //add user tokin later
 $query = mysqli_query($conn, $sql);
-if(empty ($_COOKIE['token'])){
-header("location:index.php");    
-
+if (empty($_COOKIE['token'])) {
+    header("location:index.php");
 }
 ?>
 <!DOCTYPE html>
@@ -16,7 +15,6 @@ header("location:index.php");
     <title>Quiz</title>
     <link rel="stylesheet" href="css/bootstrap.min.css">
     <link rel="stylesheet" href="css/home.css">
-    <link type="text/css" rel="stylesheet" charset="UTF-8" href="./Quiz_files/m=el_main_css">
 </head>
 
 <body>
