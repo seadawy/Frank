@@ -1,8 +1,5 @@
 <?php
 include('db.php');
-$sql = "SELECT * FROM users";
-$query = mysqli_query($conn, $sql);
-$fetch = mysqli_fetch_array($query);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -23,16 +20,31 @@ if (isset($_POST['send'])) {
     $query = mysqli_query($conn, $sql);
     $_SESSION['token'] = $token;
     setcookie("token", $token, time() + 86400 * 7);
+    session_start();
+    $_SESSION['token'] = $token;
+    
 }
+$sql = "SELECT * FROM users CROSS JOIN quiz ON quiz.userID_FK = users.token WHERE globalQuizID='$quizPublicID'";
+$query = mysqli_query($conn, $sql);
+$fetch = mysqli_fetch_array($query);
 ?>
+<!-- TO DO -->
+<!-- MAKE SESSION -->
+
 
 <body>
     <div class="container mt-5">
         <div class="SuperCard shadow mt-5">
             <h4 class="fs-4 text-center">
-                <?php echo $fetch['user']; ?>
-                يدعوك لأختبار صداقه
+                <!-- TO DO -->
+                <!-- غير سعداوى للأسم بتاع صاحب الاختبار
+                 اللينك بيبقى فيه الفيربول -->
+                <?php
+
+
+                ?>
                 🥰
+                <?php echo $fetch['name']; ?> يدعوك لأختبار صداقه
             </h4>
         </div>
         <form action="" method="post" class="SuperCard shadow d-flex flex-column gap-2">
