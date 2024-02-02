@@ -1,8 +1,5 @@
 <?php
 include('db.php');
-$sql = "SELECT * FROM users";
-$query = mysqli_query($conn, $sql);
-$fetch = mysqli_fetch_array($query);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -15,7 +12,6 @@ $fetch = mysqli_fetch_array($query);
     <link rel="stylesheet" href="css/home.css">
 </head>
 <?php
-include("db.php");
 session_start();
 /* quiz pub id */
 $quizPublicID = $_GET['q'];
@@ -24,14 +20,17 @@ if (isset($_POST['send'])) {
     $sql = "INSERT INTO users (name, token) VALUES ('$name','$token')";
     $query = mysqli_query($conn, $sql);
     setcookie("token", $token, time() + 86400 * 7);
+    session_start();
+    $_SESSION['token'] = $token;
+    
 }
+$sql = "SELECT * FROM users CROSS JOIN quiz ON quiz.userID_FK = users.token WHERE globalQuizID='$quizPublicID'";
+$query = mysqli_query($conn, $sql);
+$fetch = mysqli_fetch_array($query);
 ?>
 <!-- TO DO -->
 <!-- MAKE SESSION -->
-<?php session_start();
-$_SESSION['token'] = $token;
 
-?>
 
 <body>
     <div class="container mt-5">
@@ -45,7 +44,7 @@ $_SESSION['token'] = $token;
 
                 ?>
                 🥰
-                <?php echo $fetch['user']; ?> يدعوك لأختبار صداقه
+                <?php echo $fetch['name']; ?> يدعوك لأختبار صداقه
             </h4>
         </div>
         <form action="" method="post" class="SuperCard shadow d-flex flex-column gap-2">
