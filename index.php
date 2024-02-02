@@ -20,19 +20,21 @@ if (isset($_POST["submit"])) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Home</title>
+    <link rel="stylesheet" href="fontawsome/css/fontawesome.min.css">
+    <link rel="stylesheet" href="fontawsome/css/solid.min.css">
     <link rel="stylesheet" href="css/bootstrap.min.css">
     <link rel="stylesheet" href="css/home.css">
 </head>
 
 <body>
-    <div class="container">
-        <div class="row">
-            <center>
-                <img src="eyes.gif" alt="saly eyes" width="300">
-            </center>
-
-        </div>
+    <div class="container mt-3">
+        <h1 class="headline m-0">F<span class="rank">rank</span></h1>
         <?php if (!isset($_COOKIE['token'])): ?>
+            <div class="row">
+                <center>
+                    <img src="eyes.gif" alt="saly eyes" width="300">
+                </center>
+            </div>
             <form action="index.php" method="POST">
                 <div class="row d-flex flex-column justify-content-center align-items-center">
                     <input type="text" class="homeBtn shadow-sm text-end" autocomplete="false" placeholder="ادخل اسمك"
@@ -41,24 +43,39 @@ if (isset($_POST["submit"])) {
                 </div>
             </form>
         <?php else: ?>
-            <div class="row d-flex flex-column justify-content-center align-items-center">
-                <p class="text-center fs-3"> احتفظ بالأصدقاء وتعايش مع الأعداء </p>
-                <a class="btn btn-primary shadow-sm mt-3" href="CreateQuiz.php" style="width:250px"> صنع اختبار</a>
+            <div class="SuperCard shadow d-flex flex-column">
+                <div class="d-flex align-items-center justify-content-between">
+                    <div class="d-flex gap-2">
+                        <input type="button" class="iconf btn btn-danger" quid="" value="&#xf00d;">
+                        <input type="button" class="iconf btn btn-primary" quid="" value=" &#xf0c5;">
+                    </div>
+
+                    <div class="d-flex flex-row-reverse">
+                        <input type="radio" name="" id="" class="form-check-input ms-3" checked>
+                        <h3 class="m-0">الامتحان الاول</h3>
+                    </div>
+                </div>
+                <input type="button" id="newTest" class="btn btn-primary mt-3" value="إضافة جديد">
+                <div class="finishScreen p-3">
+                    <form action="" method="get" class="d-flex justify-content-center mt-2 gap-2">
+                        <input type="button" class="btn btn-primary shadow-sm" value="أكمل">
+                        <input type="text" name="title" class="form-control text-end shadow-sm" placeholder="عنوان لأختبار">
+                        <input type="button" id="cancel" class="btn btn-danger shadow-sm" value="إلغاء">
+                    </form>
+                </div>
             </div>
-            </form>
         <?php endif; ?>
-        <h1 class="headline m-0">F<span class="rank">rank</span></h1>
-        <div class="row m-1 rounded-1">
-            <table class="table shadow ">
-                <thead>
-                    <tr>
-                        <th>نقاط</th>
-                        <th>الأسم</th>
-                        <th>#</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php if (isset($_COOKIE['token'])): ?>
+        <?php if (isset($_COOKIE['token'])): ?>
+            <div class="SuperCard shadow">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>نقاط</th>
+                            <th>الأسم</th>
+                            <th>#</th>
+                        </tr>
+                    </thead>
+                    <tbody>
                         <?php
                         /* HISTORY */
                         $token = $_COOKIE['token'];
@@ -76,13 +93,25 @@ if (isset($_POST["submit"])) {
                                 </th>
                             </tr>
                         <?php endwhile; ?>
-                    <?php else:
-                        echo "<tr><th colspan='3'>ليس هناك اى مشاركين الى الأن</th></tr>";
-                    endif; ?>
-                </tbody>
-            </table>
+                        <?php if (mysqli_num_rows($result2) < 1): ?>
+                            <tr>
+                                <th colspan='3'>ليس هناك اى مشاركين الى الأن</th>
+                            </tr>
+                        <?php endif; ?>
+                    </tbody>
+                </table>
+            <?php endif; ?>
         </div>
     </div>
 </body>
+<script src="jquery-3.6.4.min.js"></script>
+<script>
+    $("#cancel").click(function () {
+        $('.finishScreen').fadeOut();
+    });
+    $("#newTest").click(function () {
+        $('.finishScreen').fadeIn();
+    })
+</script>
 
 </html>

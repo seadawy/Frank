@@ -15,7 +15,6 @@ if (empty($_COOKIE['token'])) {
     <title>Quiz</title>
     <link rel="stylesheet" href="css/bootstrap.min.css">
     <link rel="stylesheet" href="css/home.css">
-    <link type="text/css" rel="stylesheet" charset="UTF-8" href="./Quiz_files/m=el_main_css">
 </head>
 
 <body>
