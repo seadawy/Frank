@@ -54,26 +54,41 @@ session_destroy(); -->
             </form>
         <?php else: ?>
             <div class="SuperCard shadow d-flex flex-column">
-                <div class="d-flex align-items-center justify-content-between">
-                    <div class="d-flex gap-2">
-                        <input type="button" class="iconf btn btn-danger" quid="" value="&#xf00d;">
-                        <input type="button" class="iconf btn btn-primary" quid="" value=" &#xf0c5;">
-                    </div>
+                <?php $token = $_COOKIE['token'];
+                $sql3 = "SELECT * FROM quiz WHERE userID_FK='$token'";
+                $query3 = mysqli_query($conn, $sql3);
+                if (mysqli_num_rows($query3) == 0) { ?>
+                    <h1 class="text-end fs-5">
+                        <?php echo 'لا يوجد اختبار حتي الان'; ?>
+                    </h1>
+                <?php } else {
+                    while ($test = mysqli_fetch_array($query3)):
+                        ?>
+                        <div class="d-flex align-items-center justify-content-between">
+                            <div class="d-flex gap-2">
+                                <input type="button" class="iconf btn btn-danger" quid="<?php $test['globalQuizID']; ?>" value="&#xf00d;">
+                                <input type="button" class="iconf btn btn-primary" quid="<?php $test['globalQuizID']; ?>" value=" &#xf0c5;">
+                            </div>
 
-                    <div class="d-flex flex-row-reverse">
-                        <input type="radio" name="" id="" class="form-check-input ms-3" checked>
-                        <h3 class="m-0">الامتحان الاول</h3>
-                    </div>
-                </div>
-                <input type="button" id="newTest" class="btn btn-primary mt-3" value="إضافة جديد">
-                <div class="finishScreen p-3">
-                    <form action="" method="post" class="d-flex justify-content-center mt-2 gap-2">
-                        <input type="submit" class="btn btn-primary shadow-sm" name="newQuizSubmit" value="أكمل">
-                        <input type="text" name="title" class="form-control text-end shadow-sm" placeholder="عنوان لأختبار"
-                            required>
-                        <input type="button" id="cancel" class="btn btn-danger shadow-sm" value="إلغاء">
-                    </form>
-                </div>
+                            <div class="d-flex flex-row-reverse">
+                                <input type="radio" name="" id="" class="form-check-input ms-3" checked>
+                                <h3 class="m-0">
+                                    <?php echo $test['title']; ?>
+                                </h3>
+                            </div>
+                        </div>
+                        <?php endwhile;
+                } ?>
+                        <input type="button" id="newTest" class="btn btn-primary mt-3" value="إضافة جديد">
+                        <div class="finishScreen p-3">
+                            <form action="" method="post" class="d-flex justify-content-center mt-2 gap-2">
+                                <input type="submit" class="btn btn-primary shadow-sm" name="newQuizSubmit" value="أكمل">
+                                <input type="text" name="title" class="form-control text-end shadow-sm" placeholder="عنوان لأختبار"
+                                    required>
+                                <input type="button" id="cancel" class="btn btn-danger shadow-sm" value="إلغاء">
+                            </form>
+                        </div>
+              
             </div>
         <?php endif; ?>
         <?php if (isset($_COOKIE['token'])): ?>
