@@ -16,4 +16,8 @@ if ($_POST['Action'] == "AddQuiz") {
     $sql = "INSERT INTO quiz (userID_FK,title,globalQuizID) VALUES ('$user','$title','$quizKey')";
     mysqli_query($conn, $sql);
     header("location:index.php");
+} elseif ($_POST['Action'] == "DelQuiz") {
+    $QID = $_POST['quizID'];
+    $sql = "UPDATE `quiz` SET `isActive`= 0 WHERE globalQuizID='$QID'";
+    mysqli_query($conn, $sql);
 }

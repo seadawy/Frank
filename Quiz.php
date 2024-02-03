@@ -1,8 +1,6 @@
 <?php
 include("db.php");
-$sql = "SELECT * FROM questions";
-$query = mysqli_query($conn, $sql);
-
+session_start();
 if (isset($_COOKIE['token'])) {
     $token = $_COOKIE["token"];
     $sql2 = "SELECT token FROM users WHERE token='$token'";
@@ -26,8 +24,13 @@ if (isset($_COOKIE['token'])) {
 
 <body>
     <?php
-    session_start();
-    if (true) : ?>
+    if (isset($_SESSION['token']) && isset($_SESSION['Quiz'])) : ?>
+        <?php
+        $token = $_SESSION['token'];
+        $quizPublicID = $_SESSION['Quiz'];
+        $sql = "SELECT * FROM questions WHERE quizID_FK='$quizPublicID'";
+        $query = mysqli_query($conn, $sql);
+        ?>
         <div class="container">
             <h1 class="headline mt-3">F<span class="rank">rank</span></h1>
             <div class="SuperCard shadow d-flex">
