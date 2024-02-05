@@ -40,7 +40,7 @@ if (isset($_COOKIE['token'])) {
                     <input type="button" class="btn btn-primary indexed" id="prev" style="rotate: 180deg;" value="⮞">
                 </div>
                 <div class="d-flex justify-content-center flex-wrap g-2" id="indexGraid">
-                    <input type="button" class="btn indexed active " numeric="0" value="١">
+                    <input type="button" class="btn indexed active" numeric="0" value="١">
                 </div>
                 <div class="col d-flex justify-content-end">
                     <input type="button" class="btn indexed btn-primary" id="next" value="⮞">
@@ -75,7 +75,7 @@ if (isset($_COOKIE['token'])) {
                 endwhile; ?>
             </div>
         <?php else :
-        include ('error.php');
+        include 'error.php';
     endif;
         ?>
         </div>
@@ -85,16 +85,15 @@ if (isset($_COOKIE['token'])) {
     $(document).ready(function() {
         let currentIndex = 0;
         const $slider = $('.slider');
-        const $slides = $('.SuperCard');
-        $slides.fadeOut();
-        const totalSlides = $slides.length - 1;
+        const $slides = $('.slide');
+        const totalSlides = $slides.length;
 
-        $('#next').on('click', function() {
+        $('.next-btn').on('click', function() {
             currentIndex = (currentIndex + 1) % totalSlides;
             updateSlider();
         });
 
-        $('#prev').on('click', function() {
+        $('.prev-btn').on('click', function() {
             currentIndex = (currentIndex - 1 + totalSlides) % totalSlides;
             updateSlider();
         });
