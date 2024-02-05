@@ -38,7 +38,7 @@ if (isset($_COOKIE['token'])) {
                     <input type="button" class="btn btn-primary indexed" id="prev" style="rotate: 180deg;" value="⮞">
                 </div>
                 <div class="d-flex justify-content-center flex-wrap g-2" id="indexGraid">
-                    <input type="button" class="btn indexed active " numeric="0" value="١">
+                    <input type="button" class="btn indexed active" numeric="0" value="١">
                 </div>
                 <div class="col d-flex justify-content-end">
                     <input type="button" class="btn indexed btn-primary" id="next" value="⮞">
