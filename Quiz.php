@@ -24,7 +24,7 @@ if (isset($_COOKIE['token'])) {
 
 <body>
     <?php
-    if (isset($_SESSION['token']) && isset($_SESSION['Quiz'])) : ?>
+    if (isset($_SESSION['token']) && isset($_SESSION['Quiz'])): ?>
         <?php
         $token = $_SESSION['token'];
         $quizPublicID = $_SESSION['Quiz'];
@@ -46,9 +46,9 @@ if (isset($_COOKIE['token'])) {
             </div>
             <?php
             $i = 0;
-            while ($fetch = mysqli_fetch_array($query)) :
+            while ($fetch = mysqli_fetch_array($query)):
                 $option = explode("|", $fetch["options"]);
-            ?>
+                ?>
                 <div class="row SuperCard QuestionCard shadow-sm">
                     <h1 class="fs-2 text-end">
                         <?php echo $fetch["title"]; ?>
@@ -57,9 +57,10 @@ if (isset($_COOKIE['token'])) {
                     <div id="options">
                         <?php
                         $n = sizeof($option);
-                        for ($s = 0; $s < $n; $s++) : ?>
+                        for ($s = 0; $s < $n; $s++): ?>
                             <div class="optionGroup justify-content-start" id="option1">
-                                <input class="form-check-input" type="radio" name="answerCheck<?php echo $i ?>" value="<?php echo $s; ?>" required>
+                                <input class="form-check-input" type="radio" name="answerCheck<?php echo $i ?>"
+                                    value="<?php echo $s; ?>" required>
                                 <h1 class="fs-4 m-0 text-end">
                                     <?php echo $option[$s]; ?>
                                 </h1>
@@ -67,27 +68,27 @@ if (isset($_COOKIE['token'])) {
                         <?php endfor; ?>
                     </div>
                 </div>
-            <?php
+                <?php
                 $i++;
             endwhile; ?>
             <div class="SuperCard shadow" id="lastQ">
-                <input type="button" class="btn btn-primary w-100 finish mt-2" value="تم الأنتهاء">
+                <input type="button" class="btn btn-primary w-100 finish mt-2" id="end" value="تم الأنتهاء">
             </div>
-        <?php else :
+        <?php else:
         include('error.php');
     endif;
-        ?>
-        </div>
+    ?>
+    </div>
 </body>
 <script src="jquery-3.6.4.min.js"></script>
 <script>
-    String.prototype.toArabic = function() {
+    String.prototype.toArabic = function () {
         var id = ['٠', '١', '٢', '٣', '٤', '٥', '٦', '٧', '٨', '٩'];
-        return this.replace(/[0-9]/g, function(w) {
+        return this.replace(/[0-9]/g, function (w) {
             return id[+w];
         });
     };
-    $(document).ready(function() {
+    $(document).ready(function () {
         let currentIndex = 0;
         let $slider = $('.slider');
         let $slides = $('.QuestionCard');
@@ -95,12 +96,12 @@ if (isset($_COOKIE['token'])) {
         $("#lastQ").hide();
         $slides.hide();
         $slides.eq(0).show();
-        $('#next').on('click', function() {
+        $('#next').on('click', function () {
             currentIndex = (currentIndex + 1) % totalSlides;
             updateSlider();
         });
 
-        $('#prev').on('click', function() {
+        $('#prev').on('click', function () {
             currentIndex = (currentIndex - 1 + totalSlides) % totalSlides;
             updateSlider();
         });
@@ -109,7 +110,7 @@ if (isset($_COOKIE['token'])) {
             $slides.hide();
             $slides.eq(currentIndex).fadeIn();
             $('.indexed').removeClass('active');
-            $('#indexGraid .indexed').each(function(inx, ele) {
+            $('#indexGraid .indexed').each(function (inx, ele) {
                 if (inx == currentIndex) {
                     $(ele).addClass('active');
                 }
@@ -119,7 +120,7 @@ if (isset($_COOKIE['token'])) {
             }
         }
 
-        $(document).on('click', '#indexGraid .indexed', function() {
+        $(document).on('click', '#indexGraid .indexed', function () {
             currentIndex = $(this).attr("numeric");
             updateSlider();
         });
@@ -132,8 +133,29 @@ if (isset($_COOKIE['token'])) {
                 value: (i + 1).toString().toArabic()
             })
             $('#indexGraid').append(newbutton);
-
         }
+
+        $('#end').click(function () {
+            let Answer = new Array(totalSlides);
+            for (let index = 0; index < totalSlides; index++) {
+                var xx = $('input[name="answerCheck' + index + '"]:checked').val();
+                Answer[index] = xx == undefined ? "X" : xx;
+            }
+            console.log(Answer);
+            $.ajax({
+                url: "Controller.php",
+                method: "POST",
+                data: {
+                    Action: "ResultQuiz",
+                    currentAns: Answer,
+                },
+                success: function (Response) {
+                    Response = Response.replace(/"/g, '');
+                    window.location.replace('startQuiz.php?q=' + Response)
+
+                }
+            });
+        });
     });
 </script>
 

@@ -1,5 +1,6 @@
 <?php
 include("db.php");
+session_start();
 if ($_POST['Action'] == "AddQuiz") {
     $Questions = $_POST['Questions'];
     $Options = $_POST['Options'];
@@ -20,4 +21,21 @@ if ($_POST['Action'] == "AddQuiz") {
     $QID = $_POST['quizID'];
     $sql = "UPDATE `quiz` SET `isActive`= 0 WHERE globalQuizID='$QID'";
     mysqli_query($conn, $sql);
+} elseif ($_POST["Action"] == "ResultQuiz") {
+    $UserAnswer = $_POST['currentAns'];
+    $token = $_SESSION['token'];
+    $quizPublicID = $_SESSION['Quiz'];
+    $sql = "SELECT answer FROM questions WHERE quizID_FK='$quizPublicID'";
+    $result = mysqli_query($conn, $sql);
+    $score = 0;
+    $it = 0;
+    while ($row = mysqli_fetch_array($result)) {
+        if ((string) ($row['answer'] - 1) == ($UserAnswer[$it])) {
+            $score++;
+        }
+        $it++;
+    }
+    $sql = "INSERT INTO history (host, guest, score) VALUES ('$quizPublicID', '$token', '$score')";
+    mysqli_query($conn, $sql);
+    echo json_encode($quizPublicID);
 }
