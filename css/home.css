@@ -26,7 +26,16 @@ i::after,
 }
 
 .form-check-input[type=radio] {
-    border: 4px solid #ddd;
+    cursor: pointer;
+    border: 4px solid #425f4e;
+}
+
+label h3 {
+    padding: 0px 0px 0px 100px;
+}
+
+.form-check-label {
+    cursor: pointer;
 }
 
 .headline {

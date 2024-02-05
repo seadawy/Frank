@@ -39,7 +39,7 @@ session_destroy(); -->
 <body>
     <div class="container mt-3">
         <h1 class="headline m-0">F<span class="rank">rank</span></h1>
-        <?php if (!isset($_COOKIE['token'])) : ?>
+        <?php if (!isset($_COOKIE['token'])): ?>
             <div class="row">
                 <center>
                     <img src="image/eyes.gif" alt="saly eyes" width="300">
@@ -47,49 +47,56 @@ session_destroy(); -->
             </div>
             <form action="index.php" method="POST">
                 <div class="row d-flex flex-column justify-content-center align-items-center">
-                    <input type="text" class="homeBtn shadow-sm text-end" autocomplete="false" placeholder="ادخل اسمك" name="name" required>
+                    <input type="text" class="homeBtn shadow-sm text-end" autocomplete="false" placeholder="ادخل اسمك"
+                        name="name" required>
                     <input class="btn btn-primary mt-3" style="width:250px" type="submit" value="البدء" name="submit">
                 </div>
             </form>
-        <?php else : ?>
+        <?php else: ?>
             <div class="SuperCard shadow d-flex flex-column gap-2">
                 <?php $token = $_COOKIE['token'];
                 $sql3 = "SELECT * FROM quiz WHERE userID_FK='$token' AND isActive=1";
                 $query3 = mysqli_query($conn, $sql3);
-                if (mysqli_num_rows($query3) == 0) : ?>
+                if (mysqli_num_rows($query3) == 0): ?>
                     <h1 class="text-center my-1 fs-5 d-flex justify-content-center align-items-center">
                         لا يوجد اختبار حتي الان
                         <img src="image/pepe-noting.gif" alt="pepe" width="120">
                     </h1>
-                    <?php else :
-                    while ($test = mysqli_fetch_array($query3)) :
-                    ?>
+                <?php else:
+                    while ($test = mysqli_fetch_array($query3)):
+                        ?>
                         <div class="d-flex align-items-center justify-content-between">
                             <div class="d-flex gap-2">
-                                <input type="button" class="iconf btn btn-danger delete" quid="<?php echo $test['globalQuizID']; ?>" value="&#xf00d;">
-                                <input type="button" class="iconf btn btn-primary copy " quid="<?php echo $test['globalQuizID']; ?>" value=" &#xf0c5;">
+                                <input type="button" class="iconf btn btn-danger delete" quid="<?php echo $test['globalQuizID']; ?>"
+                                    value="&#xf00d;">
+                                <input type="button" class="iconf btn btn-primary copy " quid="<?php echo $test['globalQuizID']; ?>"
+                                    value=" &#xf0c5;">
                             </div>
 
                             <div class="d-flex flex-row-reverse">
-                                <input type="radio" name="" id="" class="form-check-input ms-3" checked>
-                                <h3 class="m-0">
-                                    <?php echo $test['title']; ?>
-                                </h3>
+                                <input type="radio" name="Quiz" id="<?php echo $test['globalQuizID']; ?>"
+                                    value="<?php echo $test['globalQuizID']; ?>" class="form-check-input ms-3">
+                                <label class="form-check-label" for="<?php echo $test['globalQuizID']; ?>">
+                                    <h3 class="m-0">
+                                        <?php echo $test['title']; ?>
+                                    </h3>
+                                </label>
                             </div>
                         </div>
-                <?php endwhile;
+                    <?php endwhile;
                 endif; ?>
                 <input type="button" id="newTest" class="btn btn-primary mt-3" value="إضافة جديد">
                 <div class="finishScreen p-3">
                     <form action="" method="post" class="d-flex justify-content-center mt-2 gap-2">
                         <input type="submit" class="btn btn-primary shadow-sm" name="newQuizSubmit" value="أكمل">
-                        <input type="text" name="title" class="form-control text-end shadow-sm" placeholder="عنوان لأختبار" required>
+                        <input type="text" name="title" class="form-control text-end shadow-sm" placeholder="عنوان لأختبار"
+                            required>
                         <input type="button" id="cancel" class="btn btn-danger shadow-sm" value="إلغاء">
                     </form>
                 </div>
             </div>
         <?php endif; ?>
-        <?php if (isset($_COOKIE['token'])) : ?>
+        <?php if (isset($_COOKIE['token'])): ?>
             <div class="SuperCard shadow">
                 <table class="table">
                     <thead>
@@ -99,59 +106,33 @@ session_destroy(); -->
                             <th>#</th>
                         </tr>
                     </thead>
-                    <tbody>
-                        <?php
-                        /* HISTORY */
-                        $token = $_COOKIE['token'];
-                        $sql2 = "SELECT * FROM history WHERE host='$token' ORDER BY score";
-                        $result2 = mysqli_query($conn, $sql2);
-                        ?>
-                        <?php while ($history = mysqli_fetch_array($result2)) : ?>
-                            <tr class="table-warning">
-                                <th class="rank">BFF</th>
-                                <th>
-                                    <?php echo $history["guest"]; ?>
-                                </th>
-                                <th>
-                                    <?php echo $history["score"]; ?>
-                                </th>
-                            </tr>
-                        <?php endwhile; ?>
-                        <?php if (mysqli_num_rows($result2) < 1) : ?>
-                            <tr>
-                                <th colspan='3' style="background:#fcfcfc">
-                                    <h2>لا اصدقاء</h2>
-                                    <img src="image/pepo21.gif" width="200">
-                                </th>
-                            </tr>
-                        <?php endif; ?>
+                    <tbody id="Reciver">
                     </tbody>
                 </table>
             <?php endif; ?>
-            </div>
+        </div>
     </div>
 </body>
 <script src="jquery-3.6.4.min.js"></script>
 <script>
-    $(document).ready(function() {
+    $(document).ready(function () {
         $('.finishScreen').css('display', 'none');
-        $("#cancel").click(function() {
+        $("#cancel").click(function () {
             $('.finishScreen').fadeOut();
         });
-        $("#newTest").click(function() {
+        $("#newTest").click(function () {
             $('.finishScreen').fadeIn();
         });
-        $('.copy').click(function() {
+        $('.copy').click(function () {
             var idVal = $(this).attr('quid');
             navigator.clipboard.writeText("http://localhost/Frank/startQuiz.php?q=" + idVal);
             var theP = this.parentNode.parentNode
             $(theP).addClass('copyDone');
-            setTimeout(function() {
+            setTimeout(function () {
                 $(theP).removeClass('copyDone');
             }, 2500);
         });
-
-        $('.delete').click(function() {
+        $('.delete').click(function () {
             var idVal = $(this).attr('quid');
             $.ajax({
                 url: "controller.php",
@@ -160,10 +141,31 @@ session_destroy(); -->
                     Action: "DelQuiz",
                     quizID: idVal,
                 },
-                success: function() {
+                success: function () {
                     window.location.replace('index.php')
                 },
             })
+        });
+        $('input[name="Quiz"]').change(function () {
+            $.ajax({
+                url: "Controller.php",
+                method: "POST",
+                type: "JSON",
+                data: {
+                    Action: "LoadHistory",
+                    QuizID: $(this).val(),
+                }, success: function (Res) {
+                    var htmlResult = "";
+                    var data = JSON.parse(Res);
+                    var x = 1;
+                    data.forEach(function (history) {
+                        htmlResult += "<tr class=\"" + (x == 1 ? "table-warning" : "") + "\"><th>" + history.score + "</th><th> <span class=\"rank\">BFF</span> " +
+                            history.guest + " </th><th>" + x + "</th></tr>"; x++;
+                    });
+                    console.log(data)
+                    $("#Reciver").html(htmlResult);
+                }
+            });
         });
     });
 </script>
