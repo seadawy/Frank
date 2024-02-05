@@ -38,4 +38,23 @@ if ($_POST['Action'] == "AddQuiz") {
     $sql = "INSERT INTO history (host, guest, score) VALUES ('$quizPublicID', '$token', '$score')";
     mysqli_query($conn, $sql);
     echo json_encode($quizPublicID);
+} elseif ($_POST["Action"] == "LoadHistory") {
+    $token = $_POST['QuizID'];
+    $data = array();
+    $sql2 = "SELECT * FROM history WHERE host='$token' ORDER BY score";
+    $result2 = mysqli_query($conn, $sql2);
+    $finalResult = "";
+    while ($history = mysqli_fetch_array($result2)) {
+        $data[] = array(
+            'guest' => htmlspecialchars($history["guest"], ENT_QUOTES, 'UTF-8'),
+            'score' => htmlspecialchars($history["score"], ENT_QUOTES, 'UTF-8')
+        );
+    }
+    if (empty($data)) {
+        $data[] = array(
+            'guest' => htmlspecialchars('لا اصدقاء', ENT_QUOTES, 'UTF-8'),
+            'score' => ''
+        );
+    }
+    echo json_encode($data);
 }
