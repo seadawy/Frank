@@ -7,64 +7,68 @@ if (isset($_COOKIE['token'])) {
     $query2 = mysqli_query($conn, $sql2);
     if (mysqli_num_rows($query2) == 0) {
         include("error.php");
-    }else{ ?><body>
-        <?php
-        if (isset($_SESSION['token']) && isset($_SESSION['Quiz'])): ?>
+    } else { ?>
+
+        <body>
             <?php
-            $token = $_SESSION['token'];
-            $quizPublicID = $_SESSION['Quiz'];
-            $sql = "SELECT * FROM questions WHERE quizID_FK='$quizPublicID'";
-            $query = mysqli_query($conn, $sql);
-            ?>
-            <div class="container">
-                <h1 class="headline mt-3">F<span class="rank">rank</span></h1>
-                <div class="SuperCard shadow d-flex">
-                    <div class="col d-flex justify-content-start">
-                        <input type="button" class="btn btn-primary indexed" id="prev" style="rotate: 180deg;" value="⮞">
-                    </div>
-                    <div class="d-flex justify-content-center flex-wrap g-2" id="indexGraid">
-                        <input type="button" class="btn indexed active" numeric="0" value="١">
-                    </div>
-                    <div class="col d-flex justify-content-end">
-                        <input type="button" class="btn indexed btn-primary" id="next" value="⮞">
-                    </div>
-                </div>
+            if (isset($_SESSION['token']) && isset($_SESSION['Quiz'])): ?>
                 <?php
-                $i = 0;
-                while ($fetch = mysqli_fetch_array($query)):
-                    $option = explode("|", $fetch["options"]);
-                    ?>
-                    <div class="row SuperCard QuestionCard shadow-sm">
-                        <h1 class="fs-2 text-end">
-                            <?php echo $fetch["title"]; ?>
-                        </h1>
-                        <hr>
-                        <div id="options">
-                            <?php
-                            $n = sizeof($option);
-                            for ($s = 0; $s < $n; $s++): ?>
-                                <div class="optionGroup justify-content-start" id="option1">
-                                    <input class="form-check-input" type="radio" name="answerCheck<?php echo $i ?>"
-                                        value="<?php echo $s; ?>" required>
-                                    <h1 class="fs-4 m-0 text-end">
-                                        <?php echo $option[$s]; ?>
-                                    </h1>
-                                </div>
-                            <?php endfor; ?>
+                $token = $_SESSION['token'];
+                $quizPublicID = $_SESSION['Quiz'];
+                $sql = "SELECT * FROM questions WHERE quizID_FK='$quizPublicID'";
+                $query = mysqli_query($conn, $sql);
+                ?>
+                <div class="container">
+                    <h1 class="headline mt-3">F<span class="rank">rank</span></h1>
+                    <div class="SuperCard shadow d-flex">
+                        <div class="col d-flex justify-content-start">
+                            <input type="button" class="btn btn-primary indexed" id="prev" style="rotate: 180deg;" value="⮞">
+                        </div>
+                        <div class="d-flex justify-content-center flex-wrap g-2" id="indexGraid">
+                            <input type="button" class="btn indexed active" numeric="0" value="١">
+                        </div>
+                        <div class="col d-flex justify-content-end">
+                            <input type="button" class="btn indexed btn-primary" id="next" value="⮞">
                         </div>
                     </div>
                     <?php
-                    $i++;
-                endwhile; ?>
-                <div class="SuperCard shadow" id="lastQ">
-                    <input type="button" class="btn btn-primary w-100 finish mt-2" id="end" value="تم الأنتهاء">
-                </div>
-            <?php else:
-            include('error.php');
-        endif;
-        ?>
-        </div>
-    </body> <?php };
+                    $i = 0;
+                    while ($fetch = mysqli_fetch_array($query)):
+                        $option = explode("|", $fetch["options"]);
+                        ?>
+                        <div class="row SuperCard QuestionCard shadow-sm">
+                            <h1 class="fs-2 text-end">
+                                <?php echo $fetch["title"]; ?>
+                            </h1>
+                            <hr>
+                            <div id="options">
+                                <?php
+                                $n = sizeof($option);
+                                for ($s = 0; $s < $n; $s++): ?>
+                                    <div class="optionGroup justify-content-start" id="option1">
+                                        <input class="form-check-input" type="radio" name="answerCheck<?php echo $i ?>"
+                                            value="<?php echo $s; ?>" required>
+                                        <h1 class="fs-4 m-0 text-end">
+                                            <?php echo $option[$s]; ?>
+                                        </h1>
+                                    </div>
+                                <?php endfor; ?>
+                            </div>
+                        </div>
+                        <?php
+                        $i++;
+                    endwhile; ?>
+                    <div class="SuperCard shadow" id="lastQ">
+                        <input type="button" class="btn btn-primary w-100 finish mt-2" id="end" value="تم الأنتهاء">
+                    </div>
+                <?php else:
+                include('error.php');
+            endif;
+            ?>
+            </div>
+        </body>
+    <?php }
+    ;
 }
 
 ?>
@@ -139,9 +143,8 @@ if (isset($_COOKIE['token'])) {
             let Answer = new Array(totalSlides);
             for (let index = 0; index < totalSlides; index++) {
                 var xx = $('input[name="answerCheck' + index + '"]:checked').val();
-                Answer[index] = xx == undefined ? "X" : xx;
+                Answer[index] = (xx == undefined ? "X" : xx);
             }
-            console.log(Answer);
             $.ajax({
                 url: "Controller.php",
                 method: "POST",
@@ -151,8 +154,8 @@ if (isset($_COOKIE['token'])) {
                 },
                 success: function (Response) {
                     Response = Response.replace(/"/g, '');
+                    console.log(Response);
                     window.location.replace('startQuiz.php?q=' + Response)
-
                 }
             });
         });

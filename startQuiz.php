@@ -10,22 +10,21 @@
     <link rel="stylesheet" href="css/home.css">
 </head>
 <?php
+$token = uniqid();
 if (isset($_COOKIE['token']))
     $token = $_COOKIE['token'];
 else {
-    $token = uniqid();
     setcookie("token", $token, time() + 86400 * 360);
 }
 session_start();
 $quizPublicID = $_GET['q'];
 if (isset($_POST['send'])) {
-
     $name = $_POST['Uname'];
     if (!empty($_SERVER['HTTP_X_FORWARDED_FOR']))
         $ip = $_SERVER['HTTP_X_FORWARDED_FOR'];
     else
         $ip = $_SERVER['REMOTE_ADDR'];
-    $sql = "INSERT INTO users (name, token,IP) VALUES ('$name','$token','$ip')";
+    $sql = "INSERT INTO users (fname, token,IP) VALUES ('$name','$token','$ip')";
     $query = mysqli_query($conn, $sql);
     $_SESSION['token'] = $token;
     $_SESSION['Quiz'] = $quizPublicID;
@@ -53,8 +52,7 @@ if (isset($_GET['q'])) {
                     </h4>
                 </div>
                 <?php
-                $sql = "SELECT * FROM history LEFT JOIN users ON history.guest= users.token WHERE host='$quizPublicID' ORDER BY  (score) DESC";
-                $query = mysqli_query($conn, $sql);
+
                 $sql2 = "SELECT * FROM history LEFT JOIN users ON history.guest= users.token  WHERE host='$quizPublicID' AND guest='$token'";
                 $query2 = mysqli_query($conn, $sql2);
                 $name = mysqli_fetch_array($query2);
@@ -72,21 +70,36 @@ if (isset($_GET['q'])) {
                     </form>
                 <?php else: ?>
                     <div class="SuperCard shadow text-end">
-                        <center>
-                            <h2>لقد قمت بحل هذا الامتحان بالفعل </h2>
-                        </center>
-                        <h4><span class="text-end">
-                                الاسم:
-                            </span>
-
-                            <?php
-                            echo $name['name']; ?>
+                        <h1 class="headline mt-3">F<span class="rank">rank</span></h1>
+                        <h2 class="text-center">لقد قمت بحل هذا بالفعل </h2>
+                        <h4 class="text-center text-success fs-2">
+                            👀
+                            <?php echo $name['fname']; ?>
+                            👀
                         </h4>
+                        <h4 class="d-flex justify-content-center mb-3">
+                            🎉 حققت
+                            <?php echo $name['score']; ?> نقاط
+                        </h4>
+                        <center>
+                            <a href="" class="btn btn-primary px-4">إعرض حلى</a>
+                            <a href="index.php" class="btn btn-secondary mx-2 px-4">إبدأ بصنع اختبار خاص بك</a>
+                        </center>
                     </div>
-
-
                 <?php endif; ?>
-
+                <!-- SHOW THIS INSTEAD IF THE HOST USER TOKEN -->
+                <div class="SuperCard shadow">
+                    <h1 class="headline mt-3">F<span class="rank">rank</span></h1>
+                    <h4 class="text-center text-success fs-2 mb-4">
+                        📝
+                        <?php echo "عنوان الامتحان" ?>
+                        📝
+                    </h4>
+                    <center>
+                        <input type="button" class="btn btn-primary px-4" id="copy" value="إنسخ الرابط">
+                        <a href="index.php" class="btn btn-secondary mx-2 px-4">إرجع</a>
+                    </center>
+                </div>
                 <div class="SuperCard shadow">
                     <table class="table">
                         <thead>
@@ -99,18 +112,21 @@ if (isset($_GET['q'])) {
                         <tbody>
                             <?php
                             $i = 1;
+                            $sql = "SELECT * FROM history LEFT JOIN users ON history.guest= users.token WHERE host='$quizPublicID' ORDER BY  (score) DESC";
+                            $query = mysqli_query($conn, $sql);
                             while ($score = mysqli_fetch_array($query)): ?>
-                                <tr class="table-warning">
+                                <tr <?php if ($i == 1)
+                                    echo "class=\"table-warning\""; ?>>
                                     <th>
                                         <?php echo $score["score"]; ?>
                                     </th>
                                     <th>
-                                        <?php if ($_COOKIE['token'] == $score['token']): ?>
+                                        <?php if ($token == $score['token']): ?>
                                             <span style="color:red;">
-                                                <?php echo $score['name']; ?>
+                                                <?php echo $score['fname']; ?>
                                             </span>
                                         <?php else:
-                                            echo $score['name'];
+                                            echo $score['fname'];
                                         endif; ?>
                                     </th>
                                     <?php if ($i == 1): ?>
@@ -151,6 +167,14 @@ if (isset($_GET['q'])) {
             ele.removeAttribute('readonly');
         }
     }
+    document.getElementById('copy').addEventListener('click', function () {
+        var idVal = this.getAttribute('quid');
+        navigator.clipboard.writeText("http://localhost/Frank/startQuiz.php?q=" + idVal);
+        this.value = "تم النسخ";
+        setTimeout(function () {
+            this.value = "إنسخ الرابط";
+        }, 2000);
+    });
 </script>
 
 </html>

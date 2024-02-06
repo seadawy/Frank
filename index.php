@@ -2,13 +2,32 @@
 include 'db.php';
 session_start();
 session_unset();
-if (isset($_POST["submit"])) {
-    $token = uniqid();
-    $name = $_POST['name'];
-    /* INSERT USER */
-    $sql = "INSERT INTO users (name,token) VAlUES ('$name','$token')";
+$token = "";
+$check = !isset($_COOKIE['token']);
+if (!$check) {
+    $token = $_COOKIE['token'];
+    $sql = "SELECT name FROM users WHERE token='$token'";
     $result = mysqli_query($conn, $sql);
-    setcookie("token", $token, time() + 86400 * 365.25);
+    $row = mysqli_fetch_array($result);
+    if (empty($row['name']))
+        $check = true;
+} else {
+    $token = uniqid();
+}
+
+if (isset($_POST["submit"])) {
+    $name = $_POST['name'];
+    if (!empty($_SERVER['HTTP_X_FORWARDED_FOR']))
+        $ip = $_SERVER['HTTP_X_FORWARDED_FOR'];
+    else
+        $ip = $_SERVER['REMOTE_ADDR'];
+    if (!$check) {
+        $sql = "INSERT INTO users (name, token,IP) VALUES ('$name','$token','$ip')";
+        setcookie("token", $token, time() + 86400 * 365.25);
+    } else {
+        $sql = "UPDATE users SET name='$name' ,IP ='$ip' WHERE token='$token'";
+    }
+    $result = mysqli_query($conn, $sql);
     header("location:index.php");
 }
 
@@ -20,11 +39,6 @@ if (isset($_POST['newQuizSubmit'])) {
 
 <!DOCTYPE html>
 <html lang="en">
-<!-- // remove all session variables
-session_unset();
-
-// destroy the session
-session_destroy(); -->
 
 <head>
     <meta charset="UTF-8">
@@ -39,7 +53,10 @@ session_destroy(); -->
 <body>
     <div class="container mt-3">
         <h1 class="headline m-0">F<span class="rank">rank</span></h1>
-        <?php if (!isset($_COOKIE['token'])): ?>
+        <?php
+
+        ?>
+        <?php if ($check): ?>
             <div class="row">
                 <center>
                     <img src="image/eyes.gif" alt="saly eyes" width="300">
@@ -69,7 +86,7 @@ session_destroy(); -->
                             <div class="d-flex gap-2">
                                 <input type="button" class="iconf btn btn-danger delete" quid="<?php echo $test['globalQuizID']; ?>"
                                     value="&#xf00d;">
-                                <input type="button" class="iconf btn btn-primary copy " quid="<?php echo $test['globalQuizID']; ?>"
+                                <input type="button" class="iconf btn btn-primary copy" quid="<?php echo $test['globalQuizID']; ?>"
                                     value=" &#xf0c5;">
                             </div>
 
@@ -96,7 +113,7 @@ session_destroy(); -->
                 </div>
             </div>
         <?php endif; ?>
-        <?php if (isset($_COOKIE['token'])): ?>
+        <?php if (!$check): ?>
             <div class="SuperCard shadow">
                 <table class="table">
                     <thead>
@@ -145,7 +162,7 @@ session_destroy(); -->
                     window.location.replace('index.php')
                 },
             })
-        });
+        })
         $('input[name="Quiz"]').change(function () {
             $.ajax({
                 url: "Controller.php",
@@ -159,14 +176,14 @@ session_destroy(); -->
                     var data = JSON.parse(Res);
                     var x = 1;
                     data.forEach(function (history) {
-                        htmlResult += "<tr class=\"" + (x == 1 ? "table-warning" : "") + "\"><th>" + history.score + "</th><th> <span class=\"rank\">BFF</span> " +
-                            history.guest + " </th><th>" + x + "</th></tr>"; x++;
+                        htmlResult += "<tr class=\"" + (x == 1 ? "table-warning" : "") + "\"><th>" + history.score + "</th><th>" +
+                            history.guest + " </th><th>" + (x == 1 ? "<span class=\"rank\">BFF</span>" : x) + "</th></tr>"; x++;
                     });
-                    console.log(data)
                     $("#Reciver").html(htmlResult);
                 }
             });
         });
+        $('input[name="Quiz"]').eq(0).click();
     });
 </script>
 
