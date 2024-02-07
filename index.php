@@ -27,14 +27,12 @@ if (isset($_POST["submit"])) {
             $_SESSION["check"] = 1;
         }
         $result = mysqli_query($conn, $sql);
-
     } else {
         $token = uniqid();
         setcookie("token", $token, time() + 365.25 * 86400);
         $sql = "INSERT INTO users (name , ip , token) VALUES ('$name','$ip','$token')";
         $_SESSION["check"] = 1;
         $result = mysqli_query($conn, $sql);
-
     }
     header("location:index.php");
 }

@@ -1,5 +1,8 @@
 <?php
 include("db.php");
+header("Access-Control-Allow-Origin: *");
+header("Access-Control-Allow-Methods: POST");
+header("Access-Control-Allow-Headers: Content-Type");
 session_start();
 if ($_POST['Action'] == "AddQuiz") {
     $Questions = $_POST['Questions'];
