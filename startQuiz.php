@@ -42,64 +42,72 @@ if (isset($_GET['q'])) {
     } else { ?>
 
         <body>
-            <div class="container mt-5">
-                <div class="SuperCard shadow mt-5">
-                    <h4 class="fs-4 text-center">
-                        🥰
-                        <?php echo $fetch['name']; ?>
-                        يدعوك لأختبار صداقه
-                        🥰
-                    </h4>
-                </div>
-                <?php
 
-                $sql2 = "SELECT * FROM history LEFT JOIN users ON history.guest= users.token  WHERE host='$quizPublicID' AND guest='$token'";
-                $query2 = mysqli_query($conn, $sql2);
-                $name = mysqli_fetch_array($query2);
-                if (mysqli_num_rows($query2) == 0):
+            <div class="container mt-5">
+                <?php
+                $sql4 = "SELECT * from quiz WHERE userID_FK='$token' AND globalQuizID='$quizPublicID'";
+                $query4 = mysqli_query($conn, $sql4);
+                if (mysqli_num_rows($query4) == 0):
                     ?>
-                    <form action="" method="post" class="SuperCard shadow d-flex flex-column gap-2">
-                        <h1 class="headline mt-3">F<span class="rank">rank</span></h1>
-                        <input type="text" class="optionInput m-0" name="Uname" placeholder="الرجاء ادخال الاسم" id="username"
-                            required>
-                        <div class="d-flex justify-content-end align-items-center gap-2">
-                            <span>اسم عشوائى</span>
-                            <input type="checkbox" id="anon" onchange="anond(this)" value="1" class="form-check-input" name="check">
-                        </div>
-                        <input type="submit" class="btn btn-primary mt-2" value="يلا" name="send" id="">
-                    </form>
-                <?php else: ?>
-                    <div class="SuperCard shadow text-end">
-                        <h1 class="headline mt-3">F<span class="rank">rank</span></h1>
-                        <h2 class="text-center">لقد قمت بحل هذا بالفعل </h2>
-                        <h4 class="text-center text-success fs-2">
-                            👀
-                            <?php echo $name['fname']; ?>
-                            👀
+                    <div class="SuperCard shadow mt-5">
+                        <h4 class="fs-4 text-center">
+                            🥰
+                            <?php echo $fetch['name']; ?>
+                            يدعوك لأختبار صداقه
+                            🥰
                         </h4>
-                        <h4 class="d-flex justify-content-center mb-3">
-                            🎉 حققت
-                            <?php echo $name['score']; ?> نقاط
+                    </div>
+                    <?php
+
+                    $sql2 = "SELECT * FROM history LEFT JOIN users ON history.guest= users.token  WHERE host='$quizPublicID' AND guest='$token'";
+                    $query2 = mysqli_query($conn, $sql2);
+                    $name = mysqli_fetch_array($query2);
+                    if (mysqli_num_rows($query2) == 0):
+                        ?>
+                        <form action="" method="post" class="SuperCard shadow d-flex flex-column gap-2">
+                            <h1 class="headline mt-3">F<span class="rank">rank</span></h1>
+                            <input type="text" class="optionInput m-0" name="Uname" placeholder="الرجاء ادخال الاسم" id="username"
+                                required>
+                            <div class="d-flex justify-content-end align-items-center gap-2">
+                                <span>اسم عشوائى</span>
+                                <input type="checkbox" id="anon" onchange="anond(this)" value="1" class="form-check-input" name="check">
+                            </div>
+                            <input type="submit" class="btn btn-primary mt-2" value="يلا" name="send" id="">
+                        </form>
+                    <?php else: ?>
+                        <div class="SuperCard shadow text-end">
+                            <h1 class="headline mt-3">F<span class="rank">rank</span></h1>
+                            <h2 class="text-center">لقد قمت بحل هذا بالفعل </h2>
+                            <h4 class="text-center text-success fs-2">
+                                👀
+                                <?php echo $name['fname']; ?>
+                                👀
+                            </h4>
+                            <h4 class="d-flex justify-content-center mb-3">
+                                🎉 حققت
+                                <?php echo $name['score']; ?> نقاط
+                            </h4>
+                            <center>
+                                <a href="Quiz.php?id=<?php echo $quizID ?>&state=show" class="btn btn-primary px-4">إعرض حلى</a>
+                                <a href="index.php" class="btn btn-secondary mx-2 px-4">إبدأ بصنع اختبار خاص بك</a>
+                            </center>
+                        </div>
+                    <?php endif; ?>
+                    <!-- SHOW THIS INSTEAD IF THE HOST USER TOKEN -->
+                <?php else: ?>
+                    <div class="SuperCard shadow">
+                        <h1 class="headline mt-3">F<span class="rank">rank</span></h1>
+                        <h4 class="text-center text-success fs-2 mb-4">
+                            📝
+                            <?php echo "عنوان الامتحان" ?>
+                            📝
                         </h4>
                         <center>
-                            <a href="Quiz.php?id=<?php echo $quizID ?>&state=show" class="btn btn-primary px-4">إعرض حلى</a>
-                            <a href="index.php" class="btn btn-secondary mx-2 px-4">إبدأ بصنع اختبار خاص بك</a>
+                            <input type="button" class="btn btn-primary px-4" id="copy" value="إنسخ الرابط">
+                            <a href="index.php" class="btn btn-secondary mx-2 px-4">إرجع</a>
                         </center>
                     </div>
                 <?php endif; ?>
-                <!-- SHOW THIS INSTEAD IF THE HOST USER TOKEN -->
-                <div class="SuperCard shadow">
-                    <h1 class="headline mt-3">F<span class="rank">rank</span></h1>
-                    <h4 class="text-center text-success fs-2 mb-4">
-                        📝
-                        <?php echo "عنوان الامتحان" ?>
-                        📝
-                    </h4>
-                    <center>
-                        <input type="button" class="btn btn-primary px-4" id="copy" value="إنسخ الرابط">
-                        <a href="index.php" class="btn btn-secondary mx-2 px-4">إرجع</a>
-                    </center>
-                </div>
                 <div class="SuperCard shadow">
                     <table class="table">
                         <thead>
