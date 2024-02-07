@@ -247,6 +247,12 @@ th {
     animation: fade 1s linear;
 }
 
+.trueOption {
+    background: #d3ffd396;
+    padding: 14px;
+    border-radius: 9px;
+}
+
 @keyframes fade {
     from {
         opacity: 0;

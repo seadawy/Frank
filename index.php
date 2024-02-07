@@ -3,19 +3,8 @@ include 'db.php';
 session_start();
 
 $token = "";
-// $check = !isset($_COOKIE['token']);
-// if (!$check) {
-//     $token = $_COOKIE['token'];
-//     $sql = "SELECT name FROM users WHERE token='$token'";
-//     $result = mysqli_query($conn, $sql);
-//     $row = mysqli_fetch_array($result);
-//     if (empty($row['name']))
-//         $check = true;
-// } else {
-//     $token = uniqid();
-// }
 if (isset($_POST["submit"])) {
-    $_SESSION["check"]=0;
+    $_SESSION["check"] = 0;
     $name = $_POST['name'];
     if (!empty($_SERVER['HTTP_X_FORWARDED_FOR']))
         $ip = $_SERVER['HTTP_X_FORWARDED_FOR'];
@@ -128,7 +117,7 @@ if (isset($_POST['newQuizSubmit'])) {
             </div>
         <?php endif; ?>
         <?php if (isset($_SESSION['check'])):
-                if($_SESSION['check']==1)
+            if ($_SESSION['check'] == 1)
             ?>
             <div class="SuperCard shadow">
                 <table class="table">
