@@ -1,32 +1,44 @@
 <?php
 include 'db.php';
 session_start();
-session_unset();
-$token = "";
-$check = !isset($_COOKIE['token']);
-if (!$check) {
-    $token = $_COOKIE['token'];
-    $sql = "SELECT name FROM users WHERE token='$token'";
-    $result = mysqli_query($conn, $sql);
-    $row = mysqli_fetch_array($result);
-    if (empty($row['name']))
-        $check = true;
-} else {
-    $token = uniqid();
-}
 
+$token = "";
+// $check = !isset($_COOKIE['token']);
+// if (!$check) {
+//     $token = $_COOKIE['token'];
+//     $sql = "SELECT name FROM users WHERE token='$token'";
+//     $result = mysqli_query($conn, $sql);
+//     $row = mysqli_fetch_array($result);
+//     if (empty($row['name']))
+//         $check = true;
+// } else {
+//     $token = uniqid();
+// }
 if (isset($_POST["submit"])) {
+    $_SESSION["check"]=0;
     $name = $_POST['name'];
     if (!empty($_SERVER['HTTP_X_FORWARDED_FOR']))
         $ip = $_SERVER['HTTP_X_FORWARDED_FOR'];
     else
         $ip = $_SERVER['REMOTE_ADDR'];
-    if (!$check) {
-        $sql = "INSERT INTO users (name, token,IP) VALUES ('$name','$token','$ip')";
-        setcookie("token", $token, time() + 86400 * 365.25);
+    if (isset($_COOKIE['token'])) {
+        $token = $_COOKIE['token'];
+        $sql1 = "SELECT * FROM users WHERE token='$token'";
+        $query1 = mysqli_query($conn, $sql1);
+        $row = mysqli_fetch_array($query1);
+        if (empty($row["name"])) {
+            $sql = "UPDATE users SET name='$name' WHERE token ='$token'";
+            $_SESSION["check"] = 1;
+        }
     } else {
-        $sql = "UPDATE users SET name='$name' ,IP ='$ip' WHERE token='$token'";
+        $token = uniqid();
+        setcookie("token", $token, time() + 365.25 * 86400);
+        $sql = "INSERT INTO users (name , ip , token) VALUES ('$name','$ip','$token')";
+        $_SESSION["check"] = 1;
     }
+
+
+
     $result = mysqli_query($conn, $sql);
     header("location:index.php");
 }
@@ -56,7 +68,8 @@ if (isset($_POST['newQuizSubmit'])) {
         <?php
 
         ?>
-        <?php if ($check): ?>
+        <?php if (!isset($_SESSION['check'])):
+            ?>
             <div class="row">
                 <center>
                     <img src="image/eyes.gif" alt="saly eyes" width="300">
@@ -101,7 +114,8 @@ if (isset($_POST['newQuizSubmit'])) {
                             </div>
                         </div>
                     <?php endwhile;
-                endif; ?>
+                endif;
+                ?>
                 <input type="button" id="newTest" class="btn btn-primary mt-3" value="إضافة جديد">
                 <div class="finishScreen p-3">
                     <form action="" method="post" class="d-flex justify-content-center mt-2 gap-2">
@@ -113,7 +127,9 @@ if (isset($_POST['newQuizSubmit'])) {
                 </div>
             </div>
         <?php endif; ?>
-        <?php if (!$check): ?>
+        <?php if (isset($_SESSION['check'])):
+                if($_SESSION['check']==1)
+            ?>
             <div class="SuperCard shadow">
                 <table class="table">
                     <thead>
