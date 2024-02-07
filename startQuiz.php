@@ -47,6 +47,7 @@ if (isset($_GET['q'])) {
                 <?php
                 $sql4 = "SELECT * from quiz WHERE userID_FK='$token' AND globalQuizID='$quizPublicID'";
                 $query4 = mysqli_query($conn, $sql4);
+                $title=mysqli_fetch_array($query4);
                 if (mysqli_num_rows($query4) == 0):
                     ?>
                     <div class="SuperCard shadow mt-5">
@@ -99,7 +100,7 @@ if (isset($_GET['q'])) {
                         <h1 class="headline mt-3">F<span class="rank">rank</span></h1>
                         <h4 class="text-center text-success fs-2 mb-4">
                             📝
-                            <?php echo "عنوان الامتحان" ?>
+                            <?php echo $title['title']; ?>
                             📝
                         </h4>
                         <center>
