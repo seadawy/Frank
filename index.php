@@ -9,6 +9,7 @@ if (isset($_POST["submit"])) {
         $ip = $_SERVER['HTTP_X_FORWARDED_FOR'];
     else
         $ip = $_SERVER['REMOTE_ADDR'];
+
     if (isset($_COOKIE['token'])) {
         $token = $_COOKIE['token'];
         $sql1 = "SELECT * FROM users WHERE token='$token'";
@@ -17,23 +18,24 @@ if (isset($_POST["submit"])) {
         if (empty($row["name"])) {
             $sql = "UPDATE users SET name='$name' WHERE token ='$token'";
             $_SESSION["check"] = 1;
-        }if(mysqli_num_rows($query1)==0){
+        }
+        if (mysqli_num_rows($query1) == 0) {
             unset($_COOKIE['token']);
             $token = uniqid();
             setcookie("token", $token, time() + 365.25 * 86400);
             $sql = "INSERT INTO users (name , ip , token) VALUES ('$name','$ip','$token')";
             $_SESSION["check"] = 1;
         }
+        $result = mysqli_query($conn, $sql);
+
     } else {
         $token = uniqid();
         setcookie("token", $token, time() + 365.25 * 86400);
         $sql = "INSERT INTO users (name , ip , token) VALUES ('$name','$ip','$token')";
         $_SESSION["check"] = 1;
+        $result = mysqli_query($conn, $sql);
+
     }
-
-
-
-    $result = mysqli_query($conn, $sql);
     header("location:index.php");
 }
 
