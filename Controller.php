@@ -31,7 +31,7 @@ if ($_POST['Action'] == "AddQuiz") {
     $score = 0;
     $it = 0;
     while ($row = mysqli_fetch_array($result)) {
-        if ((string) ($row['answer'] - 1) == ($UserAnswer[$it])) {
+        if ((string) ($row['answer']) == ($UserAnswer[$it])) {
             $score++;
         }
         $it++;

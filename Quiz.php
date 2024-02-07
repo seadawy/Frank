@@ -120,7 +120,7 @@ if (isset($_COOKIE['token'])) {
                                                 <input class="form-check-input" type="radio" id="<?php echo $tempid ?>"
                                                     name="answerCheck<?php echo $i ?>" value="<?php echo $s; ?>" <?php if ($s == $Answersfromuser[$i]) {
                                                               echo "checked";
-                                                          } ?>disabled required>
+                                                          } ?> disabled required>
                                                 <label for="<?php echo $tempid ?>">
                                                     <h1 class="fs-4 m-0 text-end">
                                                         <?php echo $option[$s]; ?>
