@@ -1,5 +1,5 @@
 let i = 0;
-let OptionNum = 3;
+let OptionNum = 2;
 let Questions = [];
 let Options = [];
 let Answer = [];
@@ -69,7 +69,7 @@ function CleanUp() {
     $('.additional').each(function (index, element) {
         element.remove();
     });
-    OptionNum = 3;
+    OptionNum = 2;
 }
 
 function LoadIndex(pointer) {

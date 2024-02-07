@@ -38,11 +38,11 @@
                     <hr>
                     <div id="options">
                         <div class="form-check optionGroup" id="option1">
-                            <input class="form-check-input" type="radio" name="answerCheck" value="1" required>
+                            <input class="form-check-input" type="radio" name="answerCheck" value="0" required>
                             <input type="text" class="optionInput" placeholder="ادخل إختيار" required>
                         </div>
                         <div class="form-check optionGroup" id="option2">
-                            <input class="form-check-input" type="radio" name="answerCheck" value="2" required>
+                            <input class="form-check-input" type="radio" name="answerCheck" value="1" required>
                             <input type="text" class="optionInput" placeholder="ادخل إختيار" required>
                         </div>
                     </div>

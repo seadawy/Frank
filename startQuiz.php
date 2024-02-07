@@ -82,7 +82,7 @@ if (isset($_GET['q'])) {
                             <?php echo $name['score']; ?> نقاط
                         </h4>
                         <center>
-                            <a href="" class="btn btn-primary px-4">إعرض حلى</a>
+                            <a href="Quiz.php?id=<?php echo $quizID ?>&state=show" class="btn btn-primary px-4">إعرض حلى</a>
                             <a href="index.php" class="btn btn-secondary mx-2 px-4">إبدأ بصنع اختبار خاص بك</a>
                         </center>
                     </div>
