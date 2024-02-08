@@ -175,7 +175,7 @@ if (isset($_POST['newQuizSubmit'])) {
         })
         $('input[name="Quiz"]').change(function () {
             $.ajax({
-                url: "Controller.php",
+                url: "controller.php",
                 method: "POST",
                 type: "JSON",
                 data: {

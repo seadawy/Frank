@@ -208,7 +208,7 @@ if (isset($_COOKIE['token'])) {
                 Answer[index] = (xx == undefined ? "X" : xx);
             }
             $.ajax({
-                url: "Controller.php",
+                url: "controller.php",
                 method: "POST",
                 data: {
                     Action: "ResultQuiz",
