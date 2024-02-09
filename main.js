@@ -89,7 +89,7 @@ function LoadIndex(pointer) {
             $(element).val(Options[pointer][index]);
         });
         $('[name="answerCheck"]').each(function (index, element) {
-            if (index + 1 == Answer[pointer]) {
+            if (index == Answer[pointer]) {
                 $(element).click();
             };
         });
@@ -106,8 +106,6 @@ function LoadIndex(pointer) {
     } else {
         $('#next').prop('disabled', false);
     }
-
-    $('.finishtext').text(" جاهز لإرسال " + (Questions.length + 1).toString().toArabic() + " سؤال ")
 }
 
 $('#AddQuestion').click(function () {
@@ -159,8 +157,9 @@ $('#prev').click(function () {
 });
 $('.finish').click(function () {
     if (validateForm()) {
-        $('.finishScreen').show();
         SaveCurrentQuestion();
+        $('.finishtext').text(" جاهز لإرسال " + (Questions.length ? Questions.length : 1).toString().toArabic() + " سؤال ")
+        $('.finishScreen').show();
     } else {
         $("#alert").fadeIn();
         setTimeout(function () {

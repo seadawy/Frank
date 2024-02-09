@@ -1,38 +1,34 @@
 <?php
 include 'db.php';
 session_start();
-$token = "";
+
+
+$token = uniqid();
+$check = isset($_COOKIE['token']);
+$check2 = false;
+if ($check) {
+    $token = $_COOKIE['token'];
+    $sql = "SELECT name FROM users WHERE token='$token'";
+    $result = mysqli_query($conn, $sql);
+    $row = mysqli_fetch_array($result);
+    if (empty($row['name'])) {
+        $check = false;
+        $check2 = true;
+    }
+}
+
 if (isset($_POST["submit"])) {
-    $_SESSION["check"] = 0;
     $name = $_POST['name'];
     if (!empty($_SERVER['HTTP_X_FORWARDED_FOR']))
         $ip = $_SERVER['HTTP_X_FORWARDED_FOR'];
     else
         $ip = $_SERVER['REMOTE_ADDR'];
-    if (isset($_COOKIE['token'])) {
-        $token = $_COOKIE['token'];
-        $sql1 = "SELECT * FROM users WHERE token='$token'";
-        $query1 = mysqli_query($conn, $sql1);
-        $row = mysqli_fetch_array($query1);
-        if (empty($row["name"])) {
-            $sql = "UPDATE users SET name='$name' WHERE token ='$token'";
-            $_SESSION["check"] = 1;
-        }if(mysqli_num_rows($query1)==0){
-            unset($_COOKIE['token']);
-            $token = uniqid();
-            setcookie("token", $token, time() + 365.25 * 86400);
-            $sql = "INSERT INTO users (name , ip , token) VALUES ('$name','$ip','$token')";
-            $_SESSION["check"] = 1;
-        }
+    if (!$check && $check2) {
+        $sql = "UPDATE users SET name='$name' ,IP ='$ip' WHERE token='$token'";
     } else {
-        $token = uniqid();
-        setcookie("token", $token, time() + 365.25 * 86400);
-        $sql = "INSERT INTO users (name , ip , token) VALUES ('$name','$ip','$token')";
-        $_SESSION["check"] = 1;
+        $sql = "INSERT INTO users (name, token,IP) VALUES ('$name','$token','$ip')";
+        setcookie("token", $token, time() + 86400 * 365.25);
     }
-
-
-
     $result = mysqli_query($conn, $sql);
     header("location:index.php");
 }
@@ -62,7 +58,7 @@ if (isset($_POST['newQuizSubmit'])) {
         <?php
 
         ?>
-        <?php if (!isset($_SESSION['check'])):
+        <?php if (!$check):
             ?>
             <div class="row">
                 <center>
@@ -121,8 +117,7 @@ if (isset($_POST['newQuizSubmit'])) {
                 </div>
             </div>
         <?php endif; ?>
-        <?php if (isset($_SESSION['check'])):
-            if ($_SESSION['check'] == 1)
+        <?php if ($check):
             ?>
             <div class="SuperCard shadow">
                 <table class="table">
@@ -139,6 +134,17 @@ if (isset($_POST['newQuizSubmit'])) {
             <?php endif; ?>
         </div>
     </div>
+
+    <div style="background: url(image/pepe-the-frog-kek.gif);
+    width: -webkit-fill-available;
+    height: 160px;
+    background-repeat: repeat-x;background-size:160px">
+    </div>
+    <p class="my-3"><a href="https://www.linkedin.com/in/abdelrahman-seadawy/" target="_blank"
+            class="text-muted fs-5">@Abdelrahman
+            Seadawy <span class="fs-3">✨</span> </a><span class="fs-1 mx-2"> || </span> <a
+            href="https://www.linkedin.com/in/mostafa-belal-3b0406264/" target="_blank" class="text-muted fs-5">
+            @Mostafa Belal <span class="fs-3">🎸</span></a></p>
 </body>
 <script src="jquery-3.6.4.min.js"></script>
 <script>
@@ -152,7 +158,7 @@ if (isset($_POST['newQuizSubmit'])) {
         });
         $('.copy').click(function () {
             var idVal = $(this).attr('quid');
-            navigator.clipboard.writeText("http://localhost/Frank/startQuiz.php?q=" + idVal);
+            navigator.clipboard.writeText("https://frank.wuaze.com/startQuiz.php?q=" + idVal);
             var theP = this.parentNode.parentNode
             $(theP).addClass('copyDone');
             setTimeout(function () {
@@ -175,7 +181,7 @@ if (isset($_POST['newQuizSubmit'])) {
         })
         $('input[name="Quiz"]').change(function () {
             $.ajax({
-                url: "Controller.php",
+                url: "controller.php",
                 method: "POST",
                 type: "JSON",
                 data: {

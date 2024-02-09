@@ -24,12 +24,19 @@ if (isset($_POST['send'])) {
         $ip = $_SERVER['HTTP_X_FORWARDED_FOR'];
     else
         $ip = $_SERVER['REMOTE_ADDR'];
-    $sql = "INSERT INTO users (fname, token,IP) VALUES ('$name','$token','$ip')";
-    $query = mysqli_query($conn, $sql);
-    $_SESSION['token'] = $token;
+
+    $sql_select = "SELECT * FROM users WHERE token = '$token'";
+    $result = mysqli_query($conn, $sql_select);
+    if (mysqli_num_rows($result) == 0) {
+        $sql = "INSERT INTO users (token, IP) VALUES ('$token','$ip')";
+        mysqli_query($conn, $sql);
+    }
     $_SESSION['Quiz'] = $quizPublicID;
-    header("location:Quiz.php");
+    $_SESSION['fname'] = $name;
+    $_SESSION['token'] = $token;
+    header('location:Quiz.php');
 }
+
 $sql = "SELECT * FROM users CROSS JOIN quiz ON quiz.userID_FK = users.token WHERE globalQuizID='$quizPublicID'";
 $query = mysqli_query($conn, $sql);
 $fetch = mysqli_fetch_array($query);
@@ -47,7 +54,7 @@ if (isset($_GET['q'])) {
                 <?php
                 $sql4 = "SELECT * from quiz WHERE userID_FK='$token' AND globalQuizID='$quizPublicID'";
                 $query4 = mysqli_query($conn, $sql4);
-                $title=mysqli_fetch_array($query4);
+                $title = mysqli_fetch_array($query4);
                 if (mysqli_num_rows($query4) == 0):
                     ?>
                     <div class="SuperCard shadow mt-5">
@@ -60,7 +67,7 @@ if (isset($_GET['q'])) {
                     </div>
                     <?php
 
-                    $sql2 = "SELECT * FROM history LEFT JOIN users ON history.guest= users.token  WHERE host='$quizPublicID' AND guest='$token'";
+                    $sql2 = "SELECT * FROM history WHERE host='$quizPublicID' AND guest='$token'";
                     $query2 = mysqli_query($conn, $sql2);
                     $name = mysqli_fetch_array($query2);
                     if (mysqli_num_rows($query2) == 0):
@@ -84,7 +91,10 @@ if (isset($_GET['q'])) {
                                 <?php echo $name['fname']; ?>
                                 👀
                             </h4>
-                            <h4 class="d-flex justify-content-center mb-3">
+                            <center>
+                                <img src="image/celebr.gif" width="200">
+                            </center>
+                            <h4 class="d-flex justify-content-center my-3">
                                 🎉 حققت
                                 <?php echo $name['score']; ?> نقاط
                             </h4>
@@ -104,7 +114,8 @@ if (isset($_GET['q'])) {
                             📝
                         </h4>
                         <center>
-                            <input type="button" class="btn btn-primary px-4" id="copy" value="إنسخ الرابط">
+                            <input type="button" quid="<?php echo $quizPublicID ?>" class="btn btn-primary px-4" id="copy"
+                                value="إنسخ الرابط">
                             <a href="index.php" class="btn btn-secondary mx-2 px-4">إرجع</a>
                         </center>
                     </div>
@@ -121,7 +132,7 @@ if (isset($_GET['q'])) {
                         <tbody>
                             <?php
                             $i = 1;
-                            $sql = "SELECT * FROM history LEFT JOIN users ON history.guest= users.token WHERE host='$quizPublicID' ORDER BY  (score) DESC";
+                            $sql = "SELECT * FROM history  WHERE host='$quizPublicID' ORDER BY  (score) DESC";
                             $query = mysqli_query($conn, $sql);
                             while ($score = mysqli_fetch_array($query)): ?>
                                 <tr <?php if ($i == 1)
@@ -130,7 +141,7 @@ if (isset($_GET['q'])) {
                                         <?php echo $score["score"]; ?>
                                     </th>
                                     <th>
-                                        <?php if ($token == $score['token']): ?>
+                                        <?php if ($token == $score['guest']): ?>
                                             <span style="color:red;">
                                                 <?php echo $score['fname']; ?>
                                             </span>
@@ -139,7 +150,12 @@ if (isset($_GET['q'])) {
                                         endif; ?>
                                     </th>
                                     <?php if ($i == 1): ?>
-                                        <th class="rank">BFF</th>
+                                        <th class="rank"> 🥇 BFF</th>
+                                    <?php elseif ($i == 2): ?>
+                                        <th> 🥈 BFF</th>
+                                    <?php elseif ($i == 3): ?>
+                                        <th> 🥉 BFF</th>
+
                                     </tr>
                                 <?php else: ?>
                                     <th class="rank">
@@ -152,7 +168,6 @@ if (isset($_GET['q'])) {
                         </tbody>
                     </table>
                 </div>
-
             </div>
         </body>
         <!-- <?php }
@@ -166,7 +181,7 @@ if (isset($_GET['q'])) {
     function anond(e) {
         let ele = document.getElementById('username');
         if (e.checked) {
-            var theNames = ['Frank', 'Franky', 'Fransis', 'Lemon', 'Flippy', 'Salamander'];
+            var theNames = ['فولة', 'طعمية', 'بطاطس', 'بلحة', 'بقدونس', 'المطرقع', 'المشطشط', 'بصله', 'ظلطه', 'صبونه', 'ليفه', 'رغيف', 'عم احمد', 'بهجت صابر', 'ميكاوى', 'بليلة', 'الاسطى', 'الاسطى عبدو', 'كبسه', 'علاوى', 'بيوضه', 'الجيار', 'المدمس', 'الفاجر', 'الالمانى', 'المصرى', 'حزلقوم', 'جونى', 'هجرس', 'الكبير', 'فنلة', 'قميص', 'شورت', 'سوسته', 'تيمون', 'بومبا', 'سيمبا', 'الشذلى'];
             var randomIndex = Math.floor(Math.random() * theNames.length);
             var randomElement = theNames[randomIndex];
             ele.value = randomElement;
@@ -178,7 +193,7 @@ if (isset($_GET['q'])) {
     }
     document.getElementById('copy').addEventListener('click', function () {
         var idVal = this.getAttribute('quid');
-        navigator.clipboard.writeText("http://localhost/Frank/startQuiz.php?q=" + idVal);
+        navigator.clipboard.writeText("https://frank.wuaze.com/startQuiz.php?q=" + idVal);
         this.value = "تم النسخ";
         setTimeout(function () {
             this.value = "إنسخ الرابط";
