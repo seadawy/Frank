@@ -5,9 +5,7 @@ header("Access-Control-Allow-Methods: POST");
 header("Access-Control-Allow-Headers: Content-Type");
 session_start();
 if ($_POST['Action'] == "AddQuiz") {
-    $Questions =  $_POST['Questions'];
-    //I made a new variable so that the funciton size of still works.
-    $Q= mysqli_real_escape_string($conn,$_POST['Questions']);
+    $Questions = $_POST['Questions'];
     $Options = $_POST['Options'];
     $Answer = $_POST['Answers'];
     $title = $_POST['title'];
@@ -15,13 +13,14 @@ if ($_POST['Action'] == "AddQuiz") {
     $quizKey = uniqid();
     $n = sizeof($Questions);
     for ($i = 0; $i < $n; $i++) {
-        $str_options =  mysqli_real_escape_string($conn,implode("|", $Options[$i]));
+        $Q = mysqli_real_escape_string($conn, $Questions[$i]);
+        $str_options = mysqli_real_escape_string($conn, implode("|", $Options[$i]));
         $sql = "INSERT INTO questions (quizID_FK,title,options,answer) VALUES('$quizKey','$Q[$i]' , '$str_options' , '$Answer[$i]')";
         mysqli_query($conn, $sql);
     }
     $sql = "INSERT INTO quiz (userID_FK,title,globalQuizID) VALUES ('$user','$title','$quizKey')";
     mysqli_query($conn, $sql);
-    header("location:index.php");
+ header("location:index.php");
 } elseif ($_POST['Action'] == "DelQuiz") {
     $QID = $_POST['quizID'];
     $sql = "UPDATE `quiz` SET `isActive`= 0 WHERE globalQuizID='$QID'";
