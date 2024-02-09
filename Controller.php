@@ -2,7 +2,8 @@
 include("db.php");
 session_start();
 if ($_POST['Action'] == "AddQuiz") {
-    $Questions = $_POST['Questions'];
+    $Questions =  $_POST['Questions'];
+    $Q= mysqli_real_escape_string($conn,$_POST['Questions']);
     $Options = $_POST['Options'];
     $Answer = $_POST['Answers'];
     $title = $_POST['title'];
@@ -10,8 +11,8 @@ if ($_POST['Action'] == "AddQuiz") {
     $quizKey = uniqid();
     $n = sizeof($Questions);
     for ($i = 0; $i < $n; $i++) {
-        $str_options = implode("|", $Options[$i]);
-        $sql = "INSERT INTO questions (quizID_FK,title,options,answer) VALUES('$quizKey','$Questions[$i]' , '$str_options' , '$Answer[$i]')";
+        $str_options =  mysqli_real_escape_string($conn,implode("|", $Options[$i]));
+        $sql = "INSERT INTO questions (quizID_FK,title,options,answer) VALUES('$quizKey','$Q[$i]' , '$str_options' , '$Answer[$i]')";
         mysqli_query($conn, $sql);
     }
     $sql = "INSERT INTO quiz (userID_FK,title,globalQuizID) VALUES ('$user','$title','$quizKey')";
