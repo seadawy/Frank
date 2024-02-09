@@ -91,7 +91,10 @@ if (isset($_GET['q'])) {
                                 <?php echo $name['fname']; ?>
                                 👀
                             </h4>
-                            <h4 class="d-flex justify-content-center mb-3">
+                            <center>
+                                <img src="image/celebr.gif" width="200">
+                            </center>
+                            <h4 class="d-flex justify-content-center my-3">
                                 🎉 حققت
                                 <?php echo $name['score']; ?> نقاط
                             </h4>
@@ -147,7 +150,12 @@ if (isset($_GET['q'])) {
                                         endif; ?>
                                     </th>
                                     <?php if ($i == 1): ?>
-                                        <th class="rank">BFF</th>
+                                        <th class="rank"> 🥇 BFF</th>
+                                    <?php elseif ($i == 2): ?>
+                                        <th> 🥈 BFF</th>
+                                    <?php elseif ($i == 3): ?>
+                                        <th> 🥉 BFF</th>
+
                                     </tr>
                                 <?php else: ?>
                                     <th class="rank">
@@ -173,7 +181,7 @@ if (isset($_GET['q'])) {
     function anond(e) {
         let ele = document.getElementById('username');
         if (e.checked) {
-            var theNames = ['Frank', 'Franky', 'Fransis', 'Lemon', 'Flippy', 'Salamander'];
+            var theNames = ['فولة', 'طعمية', 'بطاطس', 'بلحة', 'بقدونس', 'المطرقع', 'المشطشط', 'بصله', 'ظلطه', 'صبونه', 'ليفه', 'رغيف', 'عم احمد', 'بهجت صابر', 'ميكاوى', 'بليلة', 'الاسطى', 'الاسطى عبدو', 'كبسه', 'علاوى', 'بيوضه', 'الجيار', 'المدمس', 'الفاجر', 'الالمانى', 'المصرى', 'حزلقوم', 'جونى', 'هجرس', 'الكبير', 'فنلة', 'قميص', 'شورت', 'سوسته', 'تيمون', 'بومبا', 'سيمبا', 'الشذلى'];
             var randomIndex = Math.floor(Math.random() * theNames.length);
             var randomElement = theNames[randomIndex];
             ele.value = randomElement;
