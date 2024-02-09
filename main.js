@@ -101,10 +101,10 @@ function LoadIndex(pointer) {
     } else {
         $('#prev').prop('disabled', true);
     }
-    if (pointer == Questions.length) {
-        $('#next').prop('disabled', true);
+    if (pointer == Questions.length - 1) {
+        $('#nxt').prop('disabled', true);
     } else {
-        $('#next').prop('disabled', false);
+        $('#nxt').prop('disabled', false);
     }
 }
 
@@ -128,8 +128,9 @@ $('form').submit(function (e) {
 });
 
 
-$('#next').click(function () {
+$('#nxt').click(function () {
     if (validateForm()) {
+        SaveCurrentQuestion();
         if (i < Questions.length) {
             i++;
             LoadIndex(i);
@@ -144,6 +145,7 @@ $('#next').click(function () {
 
 $('#prev').click(function () {
     if (validateForm()) {
+        SaveCurrentQuestion();
         if (i > 0) {
             i--;
             LoadIndex(i);
@@ -190,10 +192,11 @@ $('#realfinish').click(function () {
         }
     });
 });
-$(document).on('click', '.indexed', function () {
+$(document).on('click', '#indexGraid .indexed', function () {
     if (validateForm()) {
         SaveCurrentQuestion();
         i = $(this).attr("numeric");
+        i = Number(i);
         LoadIndex(i);
     } else {
         $("#alert").fadeIn();

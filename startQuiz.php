@@ -150,11 +150,11 @@ if (isset($_GET['q'])) {
                                         endif; ?>
                                     </th>
                                     <?php if ($i == 1): ?>
-                                        <th class="rank"> 🥇 BFF</th>
+                                        <th class="rank"> 🥇 </th>
                                     <?php elseif ($i == 2): ?>
-                                        <th> 🥈 BFF</th>
+                                        <th> 🥈 </th>
                                     <?php elseif ($i == 3): ?>
-                                        <th> 🥉 BFF</th>
+                                        <th> 🥉 </th>
 
                                     </tr>
                                 <?php else: ?>

@@ -192,8 +192,16 @@ if (isset($_POST['newQuizSubmit'])) {
                     var data = JSON.parse(Res);
                     var x = 1;
                     data.forEach(function (history) {
+                        var top = x;
+                        if (x == 1)
+                            top = "<span class=\"rank\">🥇</span>";
+                        else if (x == 2)
+                            top = "🥈";
+                        else if (x == 3) {
+                            top = "🥉";
+                        }
                         htmlResult += "<tr class=\"" + (x == 1 ? "table-warning" : "") + "\"><th>" + history.score + "</th><th>" +
-                            history.guest + " </th><th>" + (x == 1 ? "<span class=\"rank\">BFF</span>" : x) + "</th></tr>"; x++;
+                            history.guest + " </th><th>" + top + "</th></tr>"; x++;
                     });
                     $("#Reciver").html(htmlResult);
                 }

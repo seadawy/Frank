@@ -27,7 +27,7 @@
                         <input type="button" class="btn btn-primary" id="AddQuestion" value="+">
                     </div>
                     <div class="col d-flex justify-content-end">
-                        <input type="button" class="btn indexed btn-primary" id="next" value="⮞">
+                        <input type="button" class="btn indexed btn-primary" id="nxt" value="⮞">
                     </div>
                 </div>
                 <div id="alert" class="SuperCard shadow " style="display:none">

@@ -40,7 +40,7 @@ if (isset($_COOKIE['token'])) {
                             <input type="button" class="btn indexed active" numeric="0" value="١">
                         </div>
                         <div class="col d-flex justify-content-end">
-                            <input type="button" class="btn indexed btn-primary" id="next" value="⮞">
+                            <input type="button" class="btn indexed btn-primary" id="nxt" value="⮞">
                         </div>
                     </div>
                     <?php
@@ -94,7 +94,7 @@ if (isset($_COOKIE['token'])) {
                                     <input type="button" class="btn indexed active" numeric="0" value="١">
                                 </div>
                                 <div class="col d-flex justify-content-end">
-                                    <input type="button" class="btn indexed btn-primary" id="next" value="⮞">
+                                    <input type="button" class="btn indexed btn-primary" id="nxt" value="⮞">
                                 </div>
                             </div>
                             <?php
@@ -164,7 +164,7 @@ if (isset($_COOKIE['token'])) {
         }
         $slides.hide();
         $slides.eq(0).show();
-        $('#next').on('click', function () {
+        $('#nxt').on('click', function () {
             currentIndex = (currentIndex + 1) % totalSlides;
             updateSlider();
         });
