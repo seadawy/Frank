@@ -50,7 +50,7 @@ if (isset($_COOKIE['token'])) {
                         ?>
                         <div class="row SuperCard QuestionCard shadow-sm">
                             <h1 class="fs-2 text-end">
-                                <?php echo $fetch["title"]; ?>
+                                <?php echo htmlspecialchars($fetch["title"]); ?>
                             </h1>
                             <hr>
                             <div id="options">
@@ -61,7 +61,7 @@ if (isset($_COOKIE['token'])) {
                                         <input class="form-check-input" type="radio" name="answerCheck<?php echo $i ?>"
                                             value="<?php echo $s; ?>" required>
                                         <h1 class="fs-4 m-0 text-end">
-                                            <?php echo $option[$s]; ?>
+                                            <?php echo htmlspecialchars($option[$s]); ?>
                                         </h1>
                                     </div>
                                 <?php endfor; ?>
@@ -105,7 +105,7 @@ if (isset($_COOKIE['token'])) {
                                 ?>
                                 <div class="row SuperCard QuestionCard shadow-sm">
                                     <h1 class="fs-2 text-end">
-                                        <?php echo $fetch["title"]; ?>
+                                        <?php echo htmlspecialchars($fetch["title"]); ?>
                                     </h1>
                                     <hr>
                                     <div id="options">
@@ -117,13 +117,13 @@ if (isset($_COOKIE['token'])) {
                                             if ($s == $fetch["answer"])
                                                 echo "trueOption";
                                             ?>" id="option1">
-                                                <input class="form-check-input" type="radio" id="<?php echo $tempid ?>"
+                                                <input class="form-check-input" type="radio" id="<?php echo htmlspecialchars($tempid) ?>"
                                                     name="answerCheck<?php echo $i ?>" value="<?php echo $s; ?>" <?php if ($s == $Answersfromuser[$i]) {
                                                               echo "checked";
                                                           } ?> disabled required>
                                                 <label for="<?php echo $tempid ?>">
                                                     <h1 class="fs-4 m-0 text-end">
-                                                        <?php echo $option[$s]; ?>
+                                                        <?php echo htmlspecialchars($option[$s]); ?>
                                                     </h1>
                                                 </label>
                                             </div>

@@ -15,12 +15,12 @@ if ($_POST['Action'] == "AddQuiz") {
     for ($i = 0; $i < $n; $i++) {
         $Q = mysqli_real_escape_string($conn, $Questions[$i]);
         $str_options = mysqli_real_escape_string($conn, implode("|", $Options[$i]));
-        $sql = "INSERT INTO questions (quizID_FK,title,options,answer) VALUES('$quizKey','$Q[$i]' , '$str_options' , '$Answer[$i]')";
+        $sql = "INSERT INTO questions (quizID_FK,title,options,answer) VALUES('$quizKey','$Q' , '$str_options' , '$Answer[$i]')";
         mysqli_query($conn, $sql);
     }
     $sql = "INSERT INTO quiz (userID_FK,title,globalQuizID) VALUES ('$user','$title','$quizKey')";
     mysqli_query($conn, $sql);
- header("location:index.php");
+    header("location:index.php");
 } elseif ($_POST['Action'] == "DelQuiz") {
     $QID = $_POST['quizID'];
     $sql = "UPDATE `quiz` SET `isActive`= 0 WHERE globalQuizID='$QID'";
