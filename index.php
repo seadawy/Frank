@@ -152,7 +152,7 @@ if (isset($_POST['newQuizSubmit'])) {
         });
         $('.copy').click(function () {
             var idVal = $(this).attr('quid');
-            navigator.clipboard.writeText("http://localhost/Frank/startQuiz.php?q=" + idVal);
+            navigator.clipboard.writeText("https://frank.wuaze.com/startQuiz.php?q=" + idVal);
             var theP = this.parentNode.parentNode
             $(theP).addClass('copyDone');
             setTimeout(function () {

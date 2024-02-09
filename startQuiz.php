@@ -47,7 +47,7 @@ if (isset($_GET['q'])) {
                 <?php
                 $sql4 = "SELECT * from quiz WHERE userID_FK='$token' AND globalQuizID='$quizPublicID'";
                 $query4 = mysqli_query($conn, $sql4);
-                $title=mysqli_fetch_array($query4);
+                $title = mysqli_fetch_array($query4);
                 if (mysqli_num_rows($query4) == 0):
                     ?>
                     <div class="SuperCard shadow mt-5">
@@ -104,7 +104,8 @@ if (isset($_GET['q'])) {
                             📝
                         </h4>
                         <center>
-                            <input type="button" class="btn btn-primary px-4" id="copy" value="إنسخ الرابط">
+                            <input type="button" quid="<?php echo $quizPublicID ?>" class="btn btn-primary px-4" id="copy"
+                                value="إنسخ الرابط">
                             <a href="index.php" class="btn btn-secondary mx-2 px-4">إرجع</a>
                         </center>
                     </div>
@@ -178,7 +179,7 @@ if (isset($_GET['q'])) {
     }
     document.getElementById('copy').addEventListener('click', function () {
         var idVal = this.getAttribute('quid');
-        navigator.clipboard.writeText("http://localhost/Frank/startQuiz.php?q=" + idVal);
+        navigator.clipboard.writeText("https://frank.wuaze.com/startQuiz.php?q=" + idVal);
         this.value = "تم النسخ";
         setTimeout(function () {
             this.value = "إنسخ الرابط";
