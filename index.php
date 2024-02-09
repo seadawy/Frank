@@ -1,39 +1,35 @@
 <?php
 include 'db.php';
 session_start();
-$token = "";
+
+
+$token = uniqid();
+$check = isset($_COOKIE['token']);
+$check2 = false;
+if ($check) {
+    $token = $_COOKIE['token'];
+    $sql = "SELECT name FROM users WHERE token='$token'";
+    $result = mysqli_query($conn, $sql);
+    $row = mysqli_fetch_array($result);
+    if (empty($row['name'])) {
+        $check = false;
+        $check2 = true;
+    }
+}
+
 if (isset($_POST["submit"])) {
-    $_SESSION["check"] = 0;
     $name = $_POST['name'];
     if (!empty($_SERVER['HTTP_X_FORWARDED_FOR']))
         $ip = $_SERVER['HTTP_X_FORWARDED_FOR'];
     else
         $ip = $_SERVER['REMOTE_ADDR'];
-
-    if (isset($_COOKIE['token'])) {
-        $token = $_COOKIE['token'];
-        $sql1 = "SELECT * FROM users WHERE token='$token'";
-        $query1 = mysqli_query($conn, $sql1);
-        $row = mysqli_fetch_array($query1);
-        if (empty($row["name"])) {
-            $sql = "UPDATE users SET name='$name' WHERE token ='$token'";
-            $_SESSION["check"] = 1;
-        }
-        if (mysqli_num_rows($query1) == 0) {
-            unset($_COOKIE['token']);
-            $token = uniqid();
-            setcookie("token", $token, time() + 365.25 * 86400);
-            $sql = "INSERT INTO users (name , ip , token) VALUES ('$name','$ip','$token')";
-            $_SESSION["check"] = 1;
-        }
-        $result = mysqli_query($conn, $sql);
+    if (!$check && $check2) {
+        $sql = "UPDATE users SET name='$name' ,IP ='$ip' WHERE token='$token'";
     } else {
-        $token = uniqid();
-        setcookie("token", $token, time() + 365.25 * 86400);
-        $sql = "INSERT INTO users (name , ip , token) VALUES ('$name','$ip','$token')";
-        $_SESSION["check"] = 1;
-        $result = mysqli_query($conn, $sql);
+        $sql = "INSERT INTO users (name, token,IP) VALUES ('$name','$token','$ip')";
+        setcookie("token", $token, time() + 86400 * 365.25);
     }
+    $result = mysqli_query($conn, $sql);
     header("location:index.php");
 }
 
@@ -62,7 +58,7 @@ if (isset($_POST['newQuizSubmit'])) {
         <?php
 
         ?>
-        <?php if (!isset($_SESSION['check'])):
+        <?php if (!$check):
             ?>
             <div class="row">
                 <center>
@@ -121,8 +117,7 @@ if (isset($_POST['newQuizSubmit'])) {
                 </div>
             </div>
         <?php endif; ?>
-        <?php if (isset($_SESSION['check'])):
-            if ($_SESSION['check'] == 1)
+        <?php if ($check):
             ?>
             <div class="SuperCard shadow">
                 <table class="table">
@@ -139,6 +134,14 @@ if (isset($_POST['newQuizSubmit'])) {
             <?php endif; ?>
         </div>
     </div>
+    <p><a href="https://www.linkedin.com/in/abdelrahman-seadawy/" target="_blank" class="text-muted fs-5">@Abdelrahman
+            Seadawy <span class="fs-3">✨</span> </a> & <a href="https://www.facebook.com/ryu.zaki.5015983/"
+            target="_blank" class="text-muted fs-5">
+            @Mostafa Belal <span class="fs-3">🎸</span></a></p>
+    <div
+        style="background: url(image/pepe-the-frog-kek.gif);width: -webkit-fill-available;height: 220px;background-repeat: repeat-x;">
+    </div>
+
 </body>
 <script src="jquery-3.6.4.min.js"></script>
 <script>

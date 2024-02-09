@@ -24,12 +24,19 @@ if (isset($_POST['send'])) {
         $ip = $_SERVER['HTTP_X_FORWARDED_FOR'];
     else
         $ip = $_SERVER['REMOTE_ADDR'];
-    $sql = "INSERT INTO users (fname, token,IP) VALUES ('$name','$token','$ip')";
-    $query = mysqli_query($conn, $sql);
-    $_SESSION['token'] = $token;
+
+    $sql_select = "SELECT * FROM users WHERE token = '$token'";
+    $result = mysqli_query($conn, $sql_select);
+    if (mysqli_num_rows($result) == 0) {
+        $sql = "INSERT INTO users (token, IP) VALUES ('$token','$ip')";
+        mysqli_query($conn, $sql);
+    }
     $_SESSION['Quiz'] = $quizPublicID;
-    header("location:Quiz.php");
+    $_SESSION['fname'] = $name;
+    $_SESSION['token'] = $token;
+    header('location:Quiz.php');
 }
+
 $sql = "SELECT * FROM users CROSS JOIN quiz ON quiz.userID_FK = users.token WHERE globalQuizID='$quizPublicID'";
 $query = mysqli_query($conn, $sql);
 $fetch = mysqli_fetch_array($query);
@@ -60,7 +67,7 @@ if (isset($_GET['q'])) {
                     </div>
                     <?php
 
-                    $sql2 = "SELECT * FROM history LEFT JOIN users ON history.guest= users.token  WHERE host='$quizPublicID' AND guest='$token'";
+                    $sql2 = "SELECT * FROM history WHERE host='$quizPublicID' AND guest='$token'";
                     $query2 = mysqli_query($conn, $sql2);
                     $name = mysqli_fetch_array($query2);
                     if (mysqli_num_rows($query2) == 0):
@@ -122,7 +129,7 @@ if (isset($_GET['q'])) {
                         <tbody>
                             <?php
                             $i = 1;
-                            $sql = "SELECT * FROM history LEFT JOIN users ON history.guest= users.token WHERE host='$quizPublicID' ORDER BY  (score) DESC";
+                            $sql = "SELECT * FROM history  WHERE host='$quizPublicID' ORDER BY  (score) DESC";
                             $query = mysqli_query($conn, $sql);
                             while ($score = mysqli_fetch_array($query)): ?>
                                 <tr <?php if ($i == 1)
@@ -131,7 +138,7 @@ if (isset($_GET['q'])) {
                                         <?php echo $score["score"]; ?>
                                     </th>
                                     <th>
-                                        <?php if ($token == $score['token']): ?>
+                                        <?php if ($token == $score['guest']): ?>
                                             <span style="color:red;">
                                                 <?php echo $score['fname']; ?>
                                             </span>
@@ -153,7 +160,6 @@ if (isset($_GET['q'])) {
                         </tbody>
                     </table>
                 </div>
-
             </div>
         </body>
         <!-- <?php }

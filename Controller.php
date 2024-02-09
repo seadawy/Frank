@@ -28,6 +28,7 @@ if ($_POST['Action'] == "AddQuiz") {
     $UserAnswer = $_POST['currentAns'];
     $token = $_SESSION['token'];
     $quizPublicID = $_SESSION['Quiz'];
+    $fname = $_SESSION['fname'];
     session_unset();
     $sql = "SELECT answer FROM questions WHERE quizID_FK='$quizPublicID'";
     $result = mysqli_query($conn, $sql);
@@ -40,13 +41,13 @@ if ($_POST['Action'] == "AddQuiz") {
         $it++;
     }
     $str_Ans = implode("|", $UserAnswer);
-    $sql = "INSERT INTO history (host, guest, guest_answers,score) VALUES ('$quizPublicID', '$token', '$str_Ans','$score')";
+    $sql = "INSERT INTO history (host, guest, fname,guest_answers,score) VALUES ('$quizPublicID', '$token','$fname', '$str_Ans','$score')";
     mysqli_query($conn, $sql);
     echo json_encode($quizPublicID);
 } elseif ($_POST["Action"] == "LoadHistory") {
     $quizPublicID = $_POST['QuizID'];
     $data = array();
-    $sql2 = "SELECT * FROM history INNER JOIN users ON history.guest = users.token WHERE history.host='$quizPublicID' ORDER BY  (score) DESC";
+    $sql2 = "SELECT * FROM history WHERE host='$quizPublicID' ORDER BY  (score) DESC";
     $result2 = mysqli_query($conn, $sql2);
     $finalResult = "";
     while ($history = mysqli_fetch_array($result2)) {
