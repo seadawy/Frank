@@ -134,71 +134,73 @@ if (isset($_POST['newQuizSubmit'])) {
             <?php endif; ?>
         </div>
     </div>
-    class="text-muted fs-5">@Abdelrahman
-    Seadawy <span class="fs-3">✨</span> </a><span class="fs-1 mx-2"> || </span> <a
-        href="https://www.linkedin.com/in/mostafa-belal-3b0406264/" target="_blank" class="text-muted fs-5">
-        @Mostafa Belal <span class="fs-3">🎸</span></a></p>
+
     <div style="background: url(image/pepe-the-frog-kek.gif);
     width: -webkit-fill-available;
     height: 255px;
     background-repeat: repeat-x;">
     </div>
-    <p class="my-3"><a href="https://www.linkedin.com/in/abdelrahman-seadawy/" target="_blank" </body>
-            <script src="jquery-3.6.4.min.js"></script>
-            <script>
-                $(document).ready(function () {
-                    $('.finishScreen').css('display', 'none');
-                    $("#cancel").click(function () {
-                        $('.finishScreen').fadeOut();
+    <p class="my-3"><a href="https://www.linkedin.com/in/abdelrahman-seadawy/" target="_blank"
+            class="text-muted fs-5">@Abdelrahman
+            Seadawy <span class="fs-3">✨</span> </a><span class="fs-1 mx-2"> || </span> <a
+            href="https://www.linkedin.com/in/mostafa-belal-3b0406264/" target="_blank" class="text-muted fs-5">
+            @Mostafa Belal <span class="fs-3">🎸</span></a></p>
+</body>
+<script src="jquery-3.6.4.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $('.finishScreen').css('display', 'none');
+        $("#cancel").click(function () {
+            $('.finishScreen').fadeOut();
+        });
+        $("#newTest").click(function () {
+            $('.finishScreen').fadeIn();
+        });
+        $('.copy').click(function () {
+            var idVal = $(this).attr('quid');
+            navigator.clipboard.writeText("https://frank.wuaze.com/startQuiz.php?q=" + idVal);
+            var theP = this.parentNode.parentNode
+            $(theP).addClass('copyDone');
+            setTimeout(function () {
+                $(theP).removeClass('copyDone');
+            }, 2500);
+        });
+        $('.delete').click(function () {
+            var idVal = $(this).attr('quid');
+            $.ajax({
+                url: "controller.php",
+                method: "POST",
+                data: {
+                    Action: "DelQuiz",
+                    quizID: idVal,
+                },
+                success: function () {
+                    window.location.replace('index.php')
+                },
+            })
+        })
+        $('input[name="Quiz"]').change(function () {
+            $.ajax({
+                url: "controller.php",
+                method: "POST",
+                type: "JSON",
+                data: {
+                    Action: "LoadHistory",
+                    QuizID: $(this).val(),
+                }, success: function (Res) {
+                    var htmlResult = "";
+                    var data = JSON.parse(Res);
+                    var x = 1;
+                    data.forEach(function (history) {
+                        htmlResult += "<tr class=\"" + (x == 1 ? "table-warning" : "") + "\"><th>" + history.score + "</th><th>" +
+                            history.guest + " </th><th>" + (x == 1 ? "<span class=\"rank\">BFF</span>" : x) + "</th></tr>"; x++;
                     });
-                    $("#newTest").click(function () {
-                        $('.finishScreen').fadeIn();
-                    });
-                    $('.copy').click(function () {
-                        var idVal = $(this).attr('quid');
-                        navigator.clipboard.writeText("https://frank.wuaze.com/startQuiz.php?q=" + idVal);
-                        var theP = this.parentNode.parentNode
-                        $(theP).addClass('copyDone');
-                        setTimeout(function () {
-                            $(theP).removeClass('copyDone');
-                        }, 2500);
-                    });
-                    $('.delete').click(function () {
-                        var idVal = $(this).attr('quid');
-                        $.ajax({
-                            url: "controller.php",
-                            method: "POST",
-                            data: {
-                                Action: "DelQuiz",
-                                quizID: idVal,
-                            },
-                            success: function () {
-                                window.location.replace('index.php')
-                            },
-                        })
-                    })
-                    $('input[name="Quiz"]').change(function () {
-                        $.ajax({
-                            url: "controller.php",
-                            method: "POST",
-                            type: "JSON",
-                            data: {
-                                Action: "LoadHistory",
-                                QuizID: $(this).val(),
-                            }, success: function (Res) {
-                                var htmlResult = "";
-                                var data = JSON.parse(Res);
-                                var x = 1;
-                                data.forEach(function (history) {
-                                    htmlResult += "<tr class=\"" + (x == 1 ? "table-warning" : "") + "\"><th>" + history.score + "</th><th>" +
-                                        history.guest + " </th><th>" + (x == 1 ? "<span class=\"rank\">BFF</span>" : x) + "</th></tr>"; x++;
-                                });
-                                $("#Reciver").html(htmlResult);
-                            }
-                        });
-                    });
-                    $('input[name="Quiz"]').eq(0).click();
-                });
-            </script>
+                    $("#Reciver").html(htmlResult);
+                }
+            });
+        });
+        $('input[name="Quiz"]').eq(0).click();
+    });
+</script>
 
 </html>
