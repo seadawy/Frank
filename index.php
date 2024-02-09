@@ -137,8 +137,8 @@ if (isset($_POST['newQuizSubmit'])) {
 
     <div style="background: url(image/pepe-the-frog-kek.gif);
     width: -webkit-fill-available;
-    height: 255px;
-    background-repeat: repeat-x;">
+    height: 160px;
+    background-repeat: repeat-x;background-size:160px">
     </div>
     <p class="my-3"><a href="https://www.linkedin.com/in/abdelrahman-seadawy/" target="_blank"
             class="text-muted fs-5">@Abdelrahman
