@@ -135,7 +135,7 @@ if (isset($_POST['newQuizSubmit'])) {
         </div>
     </div>
     <p><a href="https://www.linkedin.com/in/abdelrahman-seadawy/" target="_blank" class="text-muted fs-5">@Abdelrahman
-            Seadawy <span class="fs-3">✨</span> </a> & <a href="https://www.facebook.com/ryu.zaki.5015983/"
+            Seadawy <span class="fs-3">✨</span> </a> & <a href="https://www.linkedin.com/in/mostafa-belal-3b0406264/"
             target="_blank" class="text-muted fs-5">
             @Mostafa Belal <span class="fs-3">🎸</span></a></p>
     <div
