@@ -6,6 +6,7 @@ header("Access-Control-Allow-Headers: Content-Type");
 session_start();
 if ($_POST['Action'] == "AddQuiz") {
     $Questions =  $_POST['Questions'];
+    //I made a new variable so that the funciton size of still works.
     $Q= mysqli_real_escape_string($conn,$_POST['Questions']);
     $Options = $_POST['Options'];
     $Answer = $_POST['Answers'];
