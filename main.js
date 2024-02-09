@@ -112,9 +112,9 @@ $('#AddQuestion').click(function () {
     if (validateForm()) {
         SaveCurrentQuestion();
         i++;
-        var newbutton = $('<input>', { type: "button", class: "btn indexed", numeric: i, value: (i + 1).toString().toArabic() })
+        var newbutton = $('<input>', { type: "button", class: "btn indexed", numeric: Questions.length, value: (Questions.length + 1).toString().toArabic() });
         $('#AddQuestion').before(newbutton);
-        LoadIndex(i);
+        LoadIndex(Questions.length);
     } else {
         $("#alert").fadeIn();
         setTimeout(function () {

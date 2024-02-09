@@ -159,7 +159,9 @@ if (isset($_COOKIE['token'])) {
         let $slider = $('.slider');
         let $slides = $('.QuestionCard');
         let totalSlides = $slides.length;
-        $("#lastQ").hide();
+        if (totalSlides > 1) {
+            $("#lastQ").hide();
+        }
         $slides.hide();
         $slides.eq(0).show();
         $('#next').on('click', function () {
